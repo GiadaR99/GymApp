@@ -10,11 +10,11 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        val buttonClick = findViewById<Button>(R.id.login)
-        buttonClick.setOnClickListener {
+        //val buttonClick = findViewById<Button>(R.id.login)
+       /* buttonClick.setOnClickListener {
             val intent = Intent(this, TeamsActivity::class.java)
             startActivity(intent)
-        }
+        }*/
     }
 
 
