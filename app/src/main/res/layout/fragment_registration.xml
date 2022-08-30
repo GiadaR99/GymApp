@@ -8,7 +8,7 @@
 
 
     <EditText
-        android:id="@+id/editTextTextEmailAddress2"
+        android:id="@+id/editTextNickname"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -25,7 +25,7 @@
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress" />
 
     <EditText
-        android:id="@+id/editTextPassword2"
+        android:id="@+id/editTextPasswordRep"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
@@ -51,11 +51,11 @@
         android:padding="10dp"
         android:paddingLeft="20dp"
         android:password="true"
-        app:layout_constraintBottom_toTopOf="@+id/editTextPassword2"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintTop_toBottomOf="@+id/editTextNickname"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -70,7 +70,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword2" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRep" />
 
     <EditText
         android:id="@+id/editTextEmailAddress"
@@ -79,11 +79,11 @@
         android:layout_margin="10dp"
         android:background="@drawable/edt_background"
         android:ems="10"
-        android:hint="E-mail"
+        android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
         android:padding="10dp"
         android:paddingLeft="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextEmailAddress2"
+        app:layout_constraintBottom_toTopOf="@+id/editTextNickname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
