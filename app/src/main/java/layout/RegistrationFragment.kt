@@ -3,7 +3,7 @@ package layout
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,7 +13,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gymapp.LoginActivity
 import com.example.gymapp.R
-import com.example.gymapp.RegistrationActivity
 import com.google.firebase.auth.FirebaseAuth
 
 class RegistrationFragment : Fragment() {
@@ -33,50 +32,45 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val btnSignup = view.findViewById<Button>(R.id.buttonSignUp)
         btnSignup.setOnClickListener {
-            var edtn = view.findViewById<EditText>(R.id.editTextNickname)
-            var edtea = view.findViewById<EditText>(R.id.editTextEmailAddress)
-            var edtp = view.findViewById<EditText>(R.id.editTextPassword)
-            var edtpr = view.findViewById<EditText>(R.id.editTextPasswordRep)
-            var name = edtn.text.toString()
+            val edtn = view.findViewById<EditText>(R.id.editTextNickname)
+            val edtea = view.findViewById<EditText>(R.id.editTextEmailAddress)
+            val edtp = view.findViewById<EditText>(R.id.editTextPassword)
+            val edtpr = view.findViewById<EditText>(R.id.editTextPasswordRep)
+            val name = edtn.text.toString()
             var email = edtea.text.toString()
-            var password = edtp.text.toString()
-            var passwordRep = edtpr.text.toString()
+            val password = edtp.text.toString()
+            val passwordRep = edtpr.text.toString()
 
-            edtea.setError(null)
-            edtn.setError(null)
-            edtp.setError(null)
-            edtpr.setError(null)
+            edtea.error = null
+            edtn.error = null
+            edtp.error = null
+            edtpr.error = null
 
             //conditions
-            var a = email.trim().equals("", true)
-            var b = !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-            var c = name.trim().equals("", true)
-            var d = !password.equals(passwordRep, false)
-            var e = password.trim().equals("", true)
-            var f = passwordRep.trim().equals("", true)
-
+            val a = email.trim().equals("", true)
+            val b = email.matches(Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{2,})"))
+            val c = name.trim().equals("", true)
+            val d = !password.equals(passwordRep, false)
+            val e = password.trim().equals("", true)||password.length<6||!password.contains(Regex("[A-Z]"))||!password.contains(Regex("[0-9]"))
 
             if (a) {
-                (edtea).setError("Il campo non può essere vuoto");
-            }else if(b){
-                (edtea).setError("Inserire un indirizzo E-mail valido");
+                (edtea).error = "Il campo non può essere vuoto"
+            }else if(!b) {
+                (edtea).error = "Inserire un indirizzo E-mail valido"
             }
             if (c) {
-                (edtn).setError("Il campo non può essere vuoto");
+                (edtn).error = "Il campo non può essere vuoto"
             }
             if (d) {
-                (edtp).setError("Le password non coincidono");
-                (view.findViewById<EditText>(R.id.editTextPasswordRep)).setError("Le password non coincidono");
+                (edtp).error = "Le password non coincidono"
+                (edtpr).error = "Le password non coincidono"
             }
             if (e) {
-                (edtp).setError("Il campo non può essere vuoto");
-            }
-            if (f) {
-                (edtpr).setError("Il campo non può essere vuoto");
+                (edtp).error = "La password deve contenere almeno 6 caratteri, di cui almeno un numero e una lettera maiuscola"
             }
 
 
-            if(!a&&!b&&!c&&!d&&!e&&!f) {
+            if(!a&&b&&!c&&!d&&!e) {
                 signUp(email, password)
             }
 
@@ -87,15 +81,16 @@ class RegistrationFragment : Fragment() {
     }
 
     private fun signUp(email: String, password: String) {
-        mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
+        mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, jump to home
-                    Toast.makeText(activity, "FATTOOOO", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(activity, "Registrazione completata", Toast.LENGTH_LONG).show()
                     val intent = Intent(activity, LoginActivity::class.java)
                     activity?.startActivity(intent)
 
                 } else {
                     // If sign in fails, display a message to the user.
+                    Toast.makeText(activity, task.result.toString(), Toast.LENGTH_SHORT).show()
                     Toast.makeText(activity, "Errore durante la registrazione", Toast.LENGTH_SHORT).show()
                 }
             }
