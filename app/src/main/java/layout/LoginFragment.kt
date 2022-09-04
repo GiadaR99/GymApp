@@ -75,34 +75,6 @@ class LoginFragment: Fragment() {
             }
     }
 
-    /*private fun addMembersToDatabase() {
-        //val mAuth= FirebaseAuth.getInstance()
-        Toast.makeText(activity, "eccco", Toast.LENGTH_SHORT).show()
-        addMemberToDB("A", "a", "0")
-        addMemberToDB("B", "b", "1")
-        addMemberToDB("c", "c", "2")
-        addMemberToDB("D", "d", "3")
-        addMemberToDB("E", "e", "4")
-        //mAuth.uid
-
-    }
-
-    private fun addMemberToDB(name: String, surname: String, uid: String) {
-        val member = hashMapOf(
-            "name" to name,
-            "surname" to surname,
-            "uid" to uid
-        )
-        db.collection("users")
-            .add(member)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-    }*/
-
 
 }
 

@@ -6,7 +6,7 @@
     android:layout_height="wrap_content">
 
     <TextView
-        android:id="@+id/name"
+        android:id="@+id/nameList"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="44dp"
@@ -29,12 +29,12 @@
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_marginTop="5dp"
+        android:layout_width="105dp"
 
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="115dp"
+        android:layout_marginTop="5dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:srcCompat="@tools:sample/avatars" />
+        tools:srcCompat="@mipmap/ic_launcher" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

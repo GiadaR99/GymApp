@@ -1,6 +1,7 @@
 package layout
 
 import android.annotation.SuppressLint
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +15,13 @@ import androidx.fragment.app.Fragment
 import com.example.gymapp.LoginActivity
 import com.example.gymapp.R
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class RegistrationFragment : Fragment() {
 
     private lateinit var mAuth: FirebaseAuth
+    private val db = Firebase.firestore
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -84,6 +88,7 @@ class RegistrationFragment : Fragment() {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, jump to home
+                    addCoachToDB(mAuth.uid)
                     Toast.makeText(activity, "Registrazione completata", Toast.LENGTH_LONG).show()
                     val intent = Intent(activity, LoginActivity::class.java)
                     activity?.startActivity(intent)
@@ -95,4 +100,45 @@ class RegistrationFragment : Fragment() {
                 }
             }
     }
+
+    private fun addCoachToDB(uid: String?) {
+        db.collection("coach").document(uid!!).collection("team").add(hashMapOf(
+            "name" to "A"
+        ))
+            //.addOnSuccessListener { documentReference ->
+            //Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            //}
+            //.addOnFailureListener { e ->
+            //    Log.w(TAG, "Error adding document", e)
+            //}
+
+    }
+
+    /*private fun addMembersToDatabase() {
+        //val mAuth= FirebaseAuth.getInstance()
+        Toast.makeText(activity, "eccco", Toast.LENGTH_SHORT).show()
+        addMemberToDB("A", "a", "0")
+        addMemberToDB("B", "b", "1")
+        addMemberToDB("c", "c", "2")
+        addMemberToDB("D", "d", "3")
+        addMemberToDB("E", "e", "4")
+        //mAuth.uid
+
+    }
+
+    private fun addMemberToDB(name: String, surname: String, uid: String) {
+        val member = hashMapOf(
+            "name" to name,
+            "surname" to surname,
+            "uid" to uid
+        )
+        db.collection("users")
+            .add(member)
+            .addOnSuccessListener { documentReference ->
+                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Error adding document", e)
+            }
+    }*/
 }

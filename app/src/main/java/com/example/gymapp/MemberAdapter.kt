@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.Adapter
 
-class MemberAdapter(val context: Context, val memberList: ArrayList<Member>) :
+class MemberAdapter(val context: Context, val memberList: ArrayList</*Member*/String>) :
     Adapter<MemberAdapter.MemberViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemberViewHolder {
@@ -18,7 +18,7 @@ class MemberAdapter(val context: Context, val memberList: ArrayList<Member>) :
 
     override fun onBindViewHolder(holder: MemberViewHolder, position: Int) {
         val currentUser = memberList[position]
-        holder.txt_name.text = currentUser.name
+        holder.txt_name.text = currentUser//.name
     }
 
     override fun getItemCount(): Int {
@@ -26,7 +26,7 @@ class MemberAdapter(val context: Context, val memberList: ArrayList<Member>) :
     }
 
     class MemberViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
-        val txt_name = itemView.findViewById<TextView>(R.id.name)
+        val txt_name = itemView.findViewById<TextView>(R.id.nameList)
     }
 
 }
