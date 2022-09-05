@@ -94,12 +94,12 @@ class MainActivity : AppCompatActivity() {
             //SHOW MEMBER REGISTRATION ACTIVITY
 
             //PER APRIRE ACTIVITY CON FRAGMENT
-            //val intent = Intent(this, MemberRegistrationActivity::class.java)
-            //this.finish()
-            //this.startActivity(intent)
+            val intent = Intent(this, MemberRegistrationActivity::class.java)
+            this.finish()
+            this.startActivity(intent)
 
             //PER APRIRE DIALOG
-            openMemberRegistrationDialog()
+            //openMemberRegistrationDialog()
         }
     }
 
