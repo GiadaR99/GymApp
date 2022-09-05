@@ -92,10 +92,13 @@ class MainActivity : AppCompatActivity() {
         addFAB.setOnClickListener {
             Toast.makeText(this@MainActivity, "Add clicked..", Toast.LENGTH_LONG).show()
             //SHOW MEMBER REGISTRATION ACTIVITY
-            //Toast.makeText(this, "Login completato", Toast.LENGTH_LONG).show()
+
+            //PER APRIRE ACTIVITY CON FRAGMENT
             //val intent = Intent(this, MemberRegistrationActivity::class.java)
             //this.finish()
             //this.startActivity(intent)
+
+            //PER APRIRE DIALOG
             openMemberRegistrationDialog()
         }
     }
@@ -127,8 +130,8 @@ class MainActivity : AppCompatActivity() {
         val dialog = Dialog(this)
         dialog.setContentView(R.layout.dialog_add_member)
         dialog.show()
-        val cancelBtn = findViewById<Button>(R.id.btnCancel)
-        val registerBtn = findViewById<Button>(R.id.btnRegister)
+        //val cancelBtn = findViewById<Button>(R.id.btnCancel)
+        //val registerBtn = findViewById<Button>(R.id.btnRegister)
     }
 
 
