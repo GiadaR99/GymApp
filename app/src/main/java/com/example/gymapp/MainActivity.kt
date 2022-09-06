@@ -4,6 +4,7 @@ import android.R.drawable
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
@@ -35,7 +36,7 @@ class MainActivity : AppCompatActivity() {
     private val db = Firebase.firestore
 
 
-    //@SuppressLint("UseCompatLoadingForDrawables")
+    @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -43,17 +44,36 @@ class MainActivity : AppCompatActivity() {
         //INIT LISTS
         var names : ArrayList<String> = ArrayList()
         var images : ArrayList<Int> = ArrayList()
-        names=initNamesArray(names)
-        images=initImages(images, names.size)
 
-        //LAYOUT
-        layoutManager=LinearLayoutManager(this)
+        //names=initNamesArray(names)
+        db.collection("coach").document(mAuth.uid!!).collection("team")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    //
+                    names.add(document.get("name").toString())
+                }
+                Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
+                for (i in 0 until names.size)
+                    images.add(R.drawable.logo)
 
-        var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
-        recyclerView.layoutManager=layoutManager
+                Toast.makeText(this, images.toString(), Toast.LENGTH_SHORT).show()
 
-        adapter=RecyclerAdapter(names, images)
-        recyclerView.adapter=adapter
+                //LAYOUT
+                layoutManager=LinearLayoutManager(this)
+
+                var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+                recyclerView.layoutManager=layoutManager
+
+                //TO CORRECT!!!!
+                adapter=RecyclerAdapter(names, images)
+                recyclerView.adapter=adapter
+
+            }
+            .addOnFailureListener { exception ->
+                //
+                Toast.makeText(this, "FAIL", Toast.LENGTH_SHORT).show()
+            }
 
 
 
@@ -103,32 +123,11 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun initImages(images: ArrayList<Int>, size: Int): ArrayList<Int> {
-        for (i in 0..size-1)
-            images.add(R.drawable.logo)
-        return images
 
-    }
-
-    private fun initNamesArray(names: ArrayList<String>): ArrayList<String> {
-        db.collection("coach").document(mAuth.uid!!).collection("team")
-            .get()
-            .addOnSuccessListener { documents ->
-            for (document in documents) {
-                //
-                names.add(document.get("name").toString())
-
-            }
-        }
-            .addOnFailureListener { exception ->
-                //
-            }
-        return names
-    }
-
+    //TO DELETE
     private fun openMemberRegistrationDialog() {
         val dialog = Dialog(this)
-        dialog.setContentView(R.layout.dialog_add_member)
+        //dialog.setContentView(R.layout.dialog_add_member)
         dialog.show()
         //val cancelBtn = findViewById<Button>(R.id.btnCancel)
         //val registerBtn = findViewById<Button>(R.id.btnRegister)

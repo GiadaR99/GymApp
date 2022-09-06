@@ -1,11 +1,11 @@
 package com.example.gymapp
 
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
 
-class TeamsActivity : AppCompatActivity() {
+class AthleteActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_teams)
+        setContentView(R.layout.activity_athlete)
     }
 }

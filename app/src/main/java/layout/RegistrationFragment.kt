@@ -36,24 +36,20 @@ class RegistrationFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         val btnSignup = view.findViewById<Button>(R.id.buttonSignUp)
         btnSignup.setOnClickListener {
-            val edtn = view.findViewById<EditText>(R.id.editTextNickname)
             val edtea = view.findViewById<EditText>(R.id.editTextEmailAddress)
             val edtp = view.findViewById<EditText>(R.id.editTextPassword)
             val edtpr = view.findViewById<EditText>(R.id.editTextPasswordRep)
-            val name = edtn.text.toString()
             var email = edtea.text.toString()
             val password = edtp.text.toString()
             val passwordRep = edtpr.text.toString()
 
             edtea.error = null
-            edtn.error = null
             edtp.error = null
             edtpr.error = null
 
             //conditions
             val a = email.trim().equals("", true)
             val b = email.matches(Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{2,})"))
-            val c = name.trim().equals("", true)
             val d = !password.equals(passwordRep, false)
             val e = password.trim().equals("", true)||password.length<6||!password.contains(Regex("[A-Z]"))||!password.contains(Regex("[0-9]"))
 
@@ -61,9 +57,6 @@ class RegistrationFragment : Fragment() {
                 (edtea).error = "Il campo non può essere vuoto"
             }else if(!b) {
                 (edtea).error = "Inserire un indirizzo E-mail valido"
-            }
-            if (c) {
-                (edtn).error = "Il campo non può essere vuoto"
             }
             if (d) {
                 (edtp).error = "Le password non coincidono"
@@ -74,7 +67,7 @@ class RegistrationFragment : Fragment() {
             }
 
 
-            if(!a&&b&&!c&&!d&&!e) {
+            if(!a&&b&&!d&&!e) {
                 signUp(email, password)
             }
 

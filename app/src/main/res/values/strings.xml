@@ -4,4 +4,14 @@
     <string name="registrazione">Registrati</string>
     <string name="e_mail">E-mail</string>
     <string name="password">Password</string>
+    <string name="data_di_nascita">Data di nascita</string>
+    <string name="indirizzo">Indirizzo</string>
+    <string name="cognome">Cognome</string>
+    <string name="telefono">Telefono</string>
+    <string name="nome">Nome</string>
+    <string name="cap">CAP</string>
+    <string name="annulla">Annulla</string>
+    <string name="registra">Registra</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

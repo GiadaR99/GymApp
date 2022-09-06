@@ -1,10 +1,12 @@
 package com.example.gymapp
 
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
@@ -32,6 +34,10 @@ class RecyclerAdapter(private val names: ArrayList<String>, private val images: 
 
         init {
             itemView.setOnClickListener {
+
+                //getAdapterPosition()
+                val intent = Intent(itemView.context, AthleteActivity::class.java)
+                itemView.context.startActivity(intent)
 
             }
         }
