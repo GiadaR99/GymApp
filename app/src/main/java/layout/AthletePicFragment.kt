@@ -15,6 +15,7 @@ import android.widget.ImageButton
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
+import com.example.gymapp.AthleteActivity
 import com.example.gymapp.R
 import com.google.firestore.v1.Cursor
 
@@ -30,41 +31,16 @@ class AthletePicFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        val picButton = view.findViewById<ImageButton>(R.id.imageButton)
+        /*val picButton = view.findViewById<ImageButton>(R.id.imageButton)
 
         picButton.setOnClickListener {
-            var intent: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-            //activity?.startActivityForResult(intent, RESULT_LOAD_IMAGE)
-
-            val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-                    result: ActivityResult ->
-                if (result.resultCode == Activity.RESULT_OK) {
-                    val intent = result.data
-
-                    var selectedImage : Uri? = result.data?.data
-
-                    var filePathColumn = arrayOf<String>(MediaStore.Images.Media.DATA)
-                    var cursor: android.database.Cursor? = activity?.getContentResolver()?.query(selectedImage!!, filePathColumn, null, null, null)
-                    cursor?.moveToFirst()
-                    var columnIndex: Int = cursor!!.getColumnIndex(filePathColumn[0])
-                    var picturePath: String = cursor.getString(columnIndex)
-                    cursor?.close()
-
-                    picButton.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-                    // Handle the Intent
-                    //do stuff here
-                }
-            }
-            startForResult.launch(intent)
-
-            }
+            var picturePath: String = //AthleteActivity::class.java.newInstance().getImage()
+               ((AthletePicFragment)activity).getImage()
+            picButton.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+        }*/
 
 
 
-        }
-
-    companion object{
-        private val RESULT_LOAD_IMAGE: Int =1;
     }
     }
 
