@@ -1,18 +1,10 @@
 package com.example.gymapp
 
-import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.os.PersistableBundle
-import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import java.util.jar.Manifest
 
 class LoginActivity : AppCompatActivity() {
 
@@ -32,7 +24,7 @@ class LoginActivity : AppCompatActivity() {
 
     companion object{
         private val PERMISSION_REQUEST: Int =0;
-        private val RESULT_LOAD_IMAGE: Int =1;
+        //private val RESULT_LOAD_IMAGE: Int =1;
     }
 
     override fun onRequestPermissionsResult(
@@ -44,9 +36,9 @@ class LoginActivity : AppCompatActivity() {
         when(requestCode){
             PERMISSION_REQUEST ->
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED)
-                    Toast.makeText(this, "Permesso accordato!", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Permesso accordato!", Toast.LENGTH_SHORT).show()
                 else {
-                    Toast.makeText(this, "Permesso rifiutato!", Toast.LENGTH_SHORT)
+                    Toast.makeText(this, "Permesso rifiutato!", Toast.LENGTH_SHORT).show()
                     finish()
                 }
         }

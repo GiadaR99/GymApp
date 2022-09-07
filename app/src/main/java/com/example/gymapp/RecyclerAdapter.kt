@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 
 class RecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
-    //private var names = arrayListOf("A", "B", "C", "d")
-    //private var images = arrayListOf(R.drawable.logo, R.drawable.logo, R.drawable.logo, R.drawable.logo)
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.layout_athlete_card, parent, false)
         return ViewHolder(v)
@@ -34,8 +31,6 @@ class RecyclerAdapter(private val names: ArrayList<String>, private val images: 
 
         init {
             itemView.setOnClickListener {
-
-                //getAdapterPosition()
                 val intent = Intent(itemView.context, AthleteActivity::class.java)
                 itemView.context.startActivity(intent)
 

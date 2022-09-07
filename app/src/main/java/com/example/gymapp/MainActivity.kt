@@ -4,18 +4,15 @@ import android.R.drawable
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Button
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.common.io.Files.append
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -62,7 +59,7 @@ class MainActivity : AppCompatActivity() {
                 //LAYOUT
                 layoutManager=LinearLayoutManager(this)
 
-                var recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+                var recyclerView = findViewById<RecyclerView>(R.id.membersRecyclerView)
                 recyclerView.layoutManager=layoutManager
 
                 //TO CORRECT!!!!

@@ -71,12 +71,36 @@
                 android:name="layout.AthleteContactInfoFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/barrier3"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/barrier2"
                 tools:layout="@layout/fragment_athlete_info_contatto" />
+
+            <com.google.android.material.divider.MaterialDivider
+                android:id="@+id/barrier3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+                app:barrierDirection="top"
+                app:layout_constraintBottom_toTopOf="@id/fcvDocuments"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/fcvAthleteCInfo" />
+
+            <androidx.fragment.app.FragmentContainerView
+                android:id="@+id/fcvDocuments"
+                android:name="layout.AthleteFileFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.5"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/barrier3"
+                tools:layout="@layout/fragment_athlete_file" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
