@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.Instrumentation
 import android.content.Intent
 import android.graphics.BitmapFactory
+import android.graphics.Path
 import android.net.Uri
 import android.os.Bundle
 import android.os.Environment
@@ -22,6 +23,22 @@ import com.google.firestore.v1.Cursor
 
 class AthletePicFragment : Fragment() {
 
+    var picturePath: String = ""
+    var intent: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
+            result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK) {
+            var selectedImage : Uri? = intent.data
+            var filePathColumn = arrayOf<String>(MediaStore.Images.Media.DATA)
+            var cursor: android.database.Cursor? = requireContext().contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
+            cursor?.moveToFirst()
+            var columnIndex: Int = cursor!!.getColumnIndex(filePathColumn[0])
+            picturePath= cursor.getString(columnIndex)
+            cursor.close()
+
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -31,16 +48,20 @@ class AthletePicFragment : Fragment() {
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        /*val picButton = view.findViewById<ImageButton>(R.id.imageButton)
-
+        super.onViewCreated(view, savedInstanceState)
+        val picButton = view.findViewById<ImageButton>(R.id.imageButton)
         picButton.setOnClickListener {
-            var picturePath: String = //AthleteActivity::class.java.newInstance().getImage()
-               ((AthletePicFragment)activity).getImage()
+            getImage()
             picButton.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-        }*/
+        }
+    }
 
-
+    private fun getImage(){
+        startForResult.launch(intent)
+    }
 
     }
-    }
+
+
+
 

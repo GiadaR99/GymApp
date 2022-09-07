@@ -40,6 +40,7 @@ class LoginActivity : AppCompatActivity() {
         permissions: Array<out String>,
         grantResults: IntArray
     ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
         when(requestCode){
             PERMISSION_REQUEST ->
                 if(grantResults[0] == PackageManager.PERMISSION_GRANTED)

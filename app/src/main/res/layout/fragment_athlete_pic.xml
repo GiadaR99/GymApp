@@ -4,14 +4,15 @@
     android:id="@+id/frameLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:tag="AthletePic"
     tools:context="layout.AthletePicFragment">
 
     <ImageButton
         android:id="@+id/imageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:src="@drawable/logo"
         android:layout_margin="15dp"
+        android:background="@drawable/logo"
         app:layout_constraintBottom_toTopOf="@+id/titlePersonalInfo"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
