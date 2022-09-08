@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.DocumentRecyclerAdapter
@@ -40,7 +41,8 @@ class AthleteFileFragment : Fragment() {
         images.add(R.drawable.add)
 
 
-        layoutManager= LinearLayoutManager(context)
+        //layoutManager= LinearLayoutManager(context)
+        layoutManager= GridLayoutManager(context, 3)
 
         var recyclerView = requireView().findViewById<RecyclerView>(R.id.documentsRecyclerView)
         recyclerView.layoutManager=layoutManager

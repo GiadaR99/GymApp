@@ -6,10 +6,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class RecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>, private val ids: ArrayList<String>, private val athletes: HashMap<String, Athlete>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.layout_athlete_card, parent, false)
@@ -19,6 +18,7 @@ class RecyclerAdapter(private val names: ArrayList<String>, private val images: 
     override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
         holder.title.text = names[position]
         holder.image.setImageResource(images[position])
+        holder.id = ids[position]
     }
 
     override fun getItemCount(): Int {
@@ -28,10 +28,11 @@ class RecyclerAdapter(private val names: ArrayList<String>, private val images: 
     inner class ViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         var image: ImageView = itemView.findViewById(R.id.image)
         var title: TextView = itemView.findViewById(R.id.txtName)
-
+        var id: String = ""
         init {
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, AthleteActivity::class.java)
+                intent.putExtra(ATHLETE_EXTRA,athletes[id])
                 itemView.context.startActivity(intent)
 
             }

@@ -12,17 +12,17 @@
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_margin="15dp"
-        android:background="@drawable/logo"
-        app:layout_constraintBottom_toTopOf="@+id/titlePersonalInfo"
+        android:background="@drawable/user_pic"
+        android:contentDescription="@string/app_name"
+        app:layout_constraintBottom_toTopOf="@+id/titleNameSurname"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_chainStyle="packed"
-        android:contentDescription="@string/app_name" />
+        app:layout_constraintVertical_chainStyle="packed" />
 
     <TextView
-        android:id="@+id/titlePersonalInfo"
+        android:id="@+id/titleNameSurname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="3dp"

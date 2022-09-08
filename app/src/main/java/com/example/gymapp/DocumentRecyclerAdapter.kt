@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 
 class DocumentRecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>): RecyclerView.Adapter<DocumentRecyclerAdapter.ViewHolder>() {
@@ -31,9 +32,14 @@ class DocumentRecyclerAdapter(private val names: ArrayList<String>, private val 
 
         init {
             itemView.setOnClickListener {
-                //val intent = Intent(itemView.context, AthleteActivity::class.java)
-                //itemView.context.startActivity(intent)
-
+                if(title.text.equals("add")) {
+                    Toast.makeText(itemView.context, "Aggiunta nuovo file...", Toast.LENGTH_SHORT).show()
+                    //rimozione add da lista
+                    //aggiunta nuovo file
+                    //aggiunta add in coda
+                }else{
+                    Toast.makeText(itemView.context, "Apertura file: "+title.text+" ...", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 

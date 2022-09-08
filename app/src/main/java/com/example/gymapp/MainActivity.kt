@@ -38,43 +38,46 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        //INIT LISTS
-        var names : ArrayList<String> = ArrayList()
-        var images : ArrayList<Int> = ArrayList()
+        //DB
+        setListsAndLayoutFromDB()
 
-        //names=initNamesArray(names)
-        db.collection("coach").document(mAuth.uid!!).collection("team")
-            .get()
-            .addOnSuccessListener { documents ->
-                for (document in documents) {
-                    //
-                    names.add(document.get("name").toString())
-                }
-                Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
-                for (i in 0 until names.size)
-                    images.add(R.drawable.logo)
-
-                Toast.makeText(this, images.toString(), Toast.LENGTH_SHORT).show()
-
-                //LAYOUT
-                layoutManager=LinearLayoutManager(this)
-
-                var recyclerView = findViewById<RecyclerView>(R.id.membersRecyclerView)
-                recyclerView.layoutManager=layoutManager
-
-                //TO CORRECT!!!!
-                adapter=RecyclerAdapter(names, images)
-                recyclerView.adapter=adapter
-
-            }
-            .addOnFailureListener { exception ->
-                //
-                Toast.makeText(this, "FAIL", Toast.LENGTH_SHORT).show()
-            }
+        //FLOATING ACTION BUTTONS
+        setFloatingActionButtons()
 
 
 
-            //FLOATING ACTION BAR
+    }
+
+
+    //TO DELETE
+    private fun openMemberRegistrationDialog() {
+        val dialog = Dialog(this)
+        //dialog.setContentView(R.layout.dialog_add_member)
+        dialog.show()
+        //val cancelBtn = findViewById<Button>(R.id.btnCancel)
+        //val registerBtn = findViewById<Button>(R.id.btnRegister)
+    }
+
+
+    override fun onCreateOptionsMenu(menu: Menu): Boolean {
+        menuInflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        if (item.itemId==R.id.logout){
+            //logout
+            mAuth.signOut()
+            Toast.makeText(this, "Logout Completato", Toast.LENGTH_LONG).show()
+            val intent = Intent(this, LoginActivity::class.java)
+            finish()
+            this.startActivity(intent)
+            return true
+        }
+        return true
+    }
+
+    fun setFloatingActionButtons(){
         mainFAB = findViewById(R.id.floatingActionButton)
         messageFAB = findViewById(R.id.idFABMessage)
         addFAB = findViewById(R.id.idFABAdd)
@@ -112,7 +115,6 @@ class MainActivity : AppCompatActivity() {
 
             //PER APRIRE ACTIVITY CON FRAGMENT
             val intent = Intent(this, MemberRegistrationActivity::class.java)
-            this.finish()
             this.startActivity(intent)
 
             //PER APRIRE DIALOG
@@ -121,34 +123,67 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    //TO DELETE
-    private fun openMemberRegistrationDialog() {
-        val dialog = Dialog(this)
-        //dialog.setContentView(R.layout.dialog_add_member)
-        dialog.show()
-        //val cancelBtn = findViewById<Button>(R.id.btnCancel)
-        //val registerBtn = findViewById<Button>(R.id.btnRegister)
+    fun setListsAndLayoutFromDB(){
+
+        //ATHLETES LIST
+        //var athletes: ArrayList<Athlete> = ArrayList()
+        var athletes: HashMap<String, Athlete> = HashMap()
+        //INIT LISTS
+        var names : ArrayList<String> = ArrayList()
+        var images : ArrayList<Int> = ArrayList()
+        var ids : ArrayList<String> = ArrayList()
+
+        //names=initNamesArray(names)
+        db.collection("coach").document(mAuth.uid!!).collection("team")
+            .get()
+            .addOnSuccessListener { documents ->
+                for (document in documents) {
+                    var id: String = document.id
+                    var name: String = document.get("name").toString()
+                    var surname: String = document.get("surname").toString()
+                    var birthDay: String = document.get("birthday").toString()
+                    var address: String = document.get("address").toString()
+                    var cap: String = document.get("cap").toString()
+                    var phone: String = document.get("phone").toString()
+                    var email: String = document.get("email").toString()
+                    var pic: Int = 0;
+                    //initiaize pic
+                    //var pic = ....firestore cloud
+                    //
+                    names.add(name+" "+surname)
+                    ids.add(id)
+                    if(pic==0){
+                        images.add(R.drawable.logo)
+                    }else{
+                        images.add(pic)
+                    }
+
+                    //athletes.add(id, Athlete(id,name,surname,birthDay,address,cap,phone,email,pic))
+                    athletes[id] =
+                        Athlete(name, surname, birthDay, address, cap, phone, email, pic)
+
+                }
+                //Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
+                //for (i in 0 until names.size)
+                //    images.add(R.drawable.logo)
+                //Toast.makeText(this, images.toString(), Toast.LENGTH_SHORT).show()
+
+                //LAYOUT
+                layoutManager=LinearLayoutManager(this)
+
+                var recyclerView = findViewById<RecyclerView>(R.id.membersRecyclerView)
+                recyclerView.layoutManager=layoutManager
+
+                //TO CORRECT!!!!
+                adapter=RecyclerAdapter(names, images, ids, athletes)
+                recyclerView.adapter=adapter
+
+            }
+            .addOnFailureListener { exception ->
+                //
+                Toast.makeText(this, "FAIL", Toast.LENGTH_SHORT).show()
+            }
     }
-
-
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if (item.itemId==R.id.logout){
-            //logout
-            mAuth.signOut()
-            Toast.makeText(this, "Logout Completato", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, LoginActivity::class.java)
-            finish()
-            this.startActivity(intent)
-            return true
-        }
-        return true
-    }
-
 
 
 
