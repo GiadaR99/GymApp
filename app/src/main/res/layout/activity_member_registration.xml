@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/purple_200"
-    tools:context=".MemberRegistrationActivity">
+    tools:context=".AthleteRegistrationActivity">
 
     <ScrollView
         android:id="@+id/scrollView2"
@@ -41,7 +41,7 @@
 
             <androidx.fragment.app.FragmentContainerView
                 android:id="@+id/fragmentContainerView3"
-                android:name="layout.MemberRegistrationFragment"
+                android:name="layout.AthleteRegistrationFragment"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="5dp"

@@ -35,7 +35,8 @@
                 android:id="@+id/barrier1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="20dp"
                 app:barrierDirection="top"
                 app:layout_constraintBottom_toTopOf="@+id/fcvAthletePInfo"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -106,4 +107,52 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/FABBase"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:backgroundTint="@color/pink"
+        android:clickable="true"
+        android:contentDescription="@string/app_name"
+        android:focusable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@android:drawable/ic_input_add"
+        app:tint="@color/white" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/FABDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/light_pink"
+        android:contentDescription="@string/app_name"
+        android:padding="4dp"
+        android:src="@android:drawable/ic_menu_delete"
+        android:visibility="invisible"
+        app:backgroundTint="@color/light_pink"
+        app:layout_constraintBottom_toTopOf="@+id/FABBase"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/black" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/FABModify"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:layout_marginBottom="15dp"
+        android:background="@color/light_pink"
+        android:contentDescription="@string/app_name"
+        android:padding="4dp"
+        android:src="@android:drawable/ic_menu_edit"
+        android:visibility="invisible"
+        app:backgroundTint="@color/light_pink"
+        app:layout_constraintBottom_toTopOf="@+id/FABDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:tint="@color/black" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

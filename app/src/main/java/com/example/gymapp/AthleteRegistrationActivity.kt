@@ -9,7 +9,7 @@ import androidx.appcompat.app.AppCompatActivity
 import java.util.*
 
 
-class MemberRegistrationActivity : AppCompatActivity() {
+class AthleteRegistrationActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

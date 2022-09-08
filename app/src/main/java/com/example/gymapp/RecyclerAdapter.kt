@@ -33,6 +33,7 @@ class RecyclerAdapter(private val names: ArrayList<String>, private val images: 
             itemView.setOnClickListener {
                 val intent = Intent(itemView.context, AthleteActivity::class.java)
                 intent.putExtra(ATHLETE_EXTRA,athletes[id])
+                intent.putExtra(ATHLETE_ID_EXTRA, id)
                 itemView.context.startActivity(intent)
 
             }

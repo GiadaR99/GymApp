@@ -4,6 +4,7 @@ import java.io.Serializable
 import java.sql.Timestamp
 
 val ATHLETE_EXTRA= "athleteExtra"
+val ATHLETE_ID_EXTRA= "athleteIdExtra"
 
 class Athlete: Serializable {
     var name : String

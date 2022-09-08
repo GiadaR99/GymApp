@@ -13,14 +13,13 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gymapp.MainActivity
-import com.example.gymapp.MemberRegistrationActivity
 import com.example.gymapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 import java.util.*
 
-class MemberRegistrationFragment: Fragment() {
+class AthleteRegistrationFragment: Fragment() {
 
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore

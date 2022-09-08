@@ -16,7 +16,9 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/titlePersonalInfo"
         android:paddingStart="30dp"
-        android:paddingEnd="30dp">
+        android:paddingEnd="30dp"
+        android:layout_marginTop="10dp"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +30,9 @@
                 android:id="@+id/bdView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
+                android:layout_weight="0.65"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/data_di_nascita"
                 android:textStyle="bold" />
 
@@ -37,6 +41,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.35"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="ddn" />
         </LinearLayout>
 
@@ -49,7 +55,9 @@
                 android:id="@+id/viewAddress"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
+                android:layout_weight="0.65"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/indirizzo"
                 android:textStyle="bold" />
 
@@ -58,6 +66,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.35"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/indirizzo" />
         </LinearLayout>
 
@@ -69,7 +79,9 @@
                 android:id="@+id/viewCAP"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="0.75"
+                android:layout_weight="0.65"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="@string/cap"
                 android:textStyle="bold" />
 
@@ -78,6 +90,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.35"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:text="cap" />
         </LinearLayout>
 
@@ -89,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_margin="3dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="30dp"
         android:gravity="center"
         android:padding="2dp"
         android:text="Informazioni personali"

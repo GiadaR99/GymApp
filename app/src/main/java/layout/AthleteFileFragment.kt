@@ -1,12 +1,12 @@
 package layout
 
+import android.content.res.Configuration
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.DocumentRecyclerAdapter
 import com.example.gymapp.R
@@ -42,7 +42,13 @@ class AthleteFileFragment : Fragment() {
 
 
         //layoutManager= LinearLayoutManager(context)
-        layoutManager= GridLayoutManager(context, 3)
+        val orientation = resources.configuration.orientation
+        if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            layoutManager= GridLayoutManager(context, 6)
+        } else {
+            layoutManager= GridLayoutManager(context, 3)
+        }
+
 
         var recyclerView = requireView().findViewById<RecyclerView>(R.id.documentsRecyclerView)
         recyclerView.layoutManager=layoutManager

@@ -15,7 +15,7 @@
             android:name=".AthleteActivity"
             android:exported="false" />
         <activity
-            android:name=".MemberRegistrationActivity"
+            android:name=".AthleteRegistrationActivity"
             android:exported="false" />
         <activity
             android:name=".LoginActivity"
