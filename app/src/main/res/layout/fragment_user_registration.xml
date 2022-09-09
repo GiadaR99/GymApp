@@ -6,38 +6,45 @@
     android:layout_height="match_parent"
     android:padding="40dp">
 
+
+    <EditText
+        android:id="@+id/editTextPasswordRep"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:background="@drawable/edt_background"
+        android:hint="Ripeti Password"
+        android:maxLength="50"
+        android:maxLines="1"
+        android:padding="10dp"
+        android:paddingLeft="20dp"
+        android:password="true"
+        android:singleLine="true"
+        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
+        app:layout_constraintVertical_chainStyle="packed" />
+
     <EditText
         android:id="@+id/editTextPassword"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
         android:background="@drawable/edt_background"
-        android:hint="@string/password"
-        android:inputType="textPassword"
+        android:hint="Password"
+        android:maxLength="50"
+        android:maxLines="1"
         android:padding="10dp"
         android:paddingLeft="20dp"
+        android:password="true"
         android:singleLine="true"
-        app:layout_constraintBottom_toTopOf="@+id/buttonLogin"
+        app:layout_constraintBottom_toTopOf="@+id/editTextPasswordRep"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/editTextEmailAddress"
-        app:layout_constraintVertical_chainStyle="packed" />
-
-    <Button
-        android:id="@+id/buttonLogin"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="10dp"
-        android:autoLink="email"
-        android:background="@drawable/edt_btn_background"
-        android:text="@string/login"
-        app:backgroundTint="@color/pink"
-        app:layout_constraintBottom_toTopOf="@+id/buttonSignUp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPassword"
         app:layout_constraintVertical_chainStyle="packed" />
 
     <Button
@@ -47,12 +54,12 @@
         android:layout_margin="10dp"
         android:background="@drawable/edt_btn_background"
         android:text="@string/registrazione"
-        app:backgroundTint="@color/light_pink"
+        app:backgroundTint="@color/pink"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/buttonLogin" />
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordRep" />
 
     <EditText
         android:id="@+id/editTextEmailAddress"
@@ -63,6 +70,7 @@
         android:ems="10"
         android:hint="@string/e_mail"
         android:inputType="textEmailAddress"
+        android:maxLength="30"
         android:padding="10dp"
         android:paddingLeft="20dp"
         android:singleLine="true"
@@ -72,5 +80,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_chainStyle="packed" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

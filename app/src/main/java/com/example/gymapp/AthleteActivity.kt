@@ -22,6 +22,13 @@ class AthleteActivity : AppCompatActivity() {
         setFloatingActionButtons()
     }
 
+    /*override fun onBackPressed() {
+        super.onBackPressed()
+        val intent = Intent(this, MainActivity::class.java)
+        this.finish()
+        this.startActivity(intent)
+    }*/
+
     fun setFloatingActionButtons() {
         var mainFAB = findViewById<FloatingActionButton>(R.id.FABBase)
         var modifyFAB = findViewById<FloatingActionButton>(R.id.FABModify)

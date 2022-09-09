@@ -1,10 +1,8 @@
 package layout
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -12,13 +10,13 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.gymapp.LoginActivity
+import com.example.gymapp.UserLoginActivity
 import com.example.gymapp.R
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
-class RegistrationFragment : Fragment() {
+class UserRegistrationFragment : Fragment() {
 
     private lateinit var mAuth: FirebaseAuth
     private val db = Firebase.firestore
@@ -28,7 +26,7 @@ class RegistrationFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mAuth= FirebaseAuth.getInstance()
-        return inflater.inflate(R.layout.fragment_registration, container, false)
+        return inflater.inflate(R.layout.fragment_user_registration, container, false)
     }
 
     @SuppressLint("NewApi")
@@ -81,14 +79,15 @@ class RegistrationFragment : Fragment() {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, jump to home
-                    addCoachToDB(mAuth.uid)
+                    //addCoachToDB(mAuth.uid)
                     Toast.makeText(activity, "Registrazione completata", Toast.LENGTH_LONG).show()
-                    val intent = Intent(activity, LoginActivity::class.java)
+                    val intent = Intent(activity, UserLoginActivity::class.java)
+                    activity?.finish()
                     activity?.startActivity(intent)
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    Toast.makeText(activity, task.result.toString(), Toast.LENGTH_SHORT).show()
+                    //Toast.makeText(activity, task.result.toString(), Toast.LENGTH_SHORT).show()
                     Toast.makeText(activity, "Errore durante la registrazione", Toast.LENGTH_SHORT).show()
                 }
             }

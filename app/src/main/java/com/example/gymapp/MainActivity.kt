@@ -8,6 +8,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -27,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
     //LAYOUT
     private var layoutManager: RecyclerView.LayoutManager? = null
-    private var adapter: RecyclerView.Adapter<RecyclerAdapter.ViewHolder>? = null
+    private var adapter: RecyclerView.Adapter<TeamRecyclerAdapter.ViewHolder>? = null
 
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
@@ -69,7 +70,7 @@ class MainActivity : AppCompatActivity() {
             //logout
             mAuth.signOut()
             Toast.makeText(this, "Logout Completato", Toast.LENGTH_LONG).show()
-            val intent = Intent(this, LoginActivity::class.java)
+            val intent = Intent(this, UserLoginActivity::class.java)
             finish()
             this.startActivity(intent)
             return true
@@ -115,6 +116,7 @@ class MainActivity : AppCompatActivity() {
 
             //PER APRIRE ACTIVITY CON FRAGMENT
             val intent = Intent(this, AthleteRegistrationActivity::class.java)
+            this.finish()
             this.startActivity(intent)
 
             //PER APRIRE DIALOG
@@ -171,11 +173,19 @@ class MainActivity : AppCompatActivity() {
                 //LAYOUT
                 layoutManager=LinearLayoutManager(this)
 
-                var recyclerView = findViewById<RecyclerView>(R.id.membersRecyclerView)
+                var recyclerView = findViewById<RecyclerView>(R.id.athletesRecyclerView)
                 recyclerView.layoutManager=layoutManager
 
+
+                var txt = findViewById<TextView>(R.id.textViewEmptyTeam)
+                if(athletes.isEmpty()){
+                    txt.visibility = View.VISIBLE
+                }else{
+                    txt.visibility = View.GONE
+                }
+
                 //TO CORRECT!!!!
-                adapter=RecyclerAdapter(names, images, ids, athletes)
+                adapter=TeamRecyclerAdapter(names, images, ids, athletes)
                 recyclerView.adapter=adapter
 
             }

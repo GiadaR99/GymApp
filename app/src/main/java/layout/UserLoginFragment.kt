@@ -1,11 +1,8 @@
 package layout
 
 import android.annotation.SuppressLint
-import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
-import android.text.TextUtils
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,12 +12,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.gymapp.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
-class LoginFragment: Fragment() {
+class UserLoginFragment: Fragment() {
     private lateinit var mAuth: FirebaseAuth
     //private val db = Firebase.firestore
 
@@ -30,7 +23,7 @@ class LoginFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         mAuth= FirebaseAuth.getInstance()
-        return inflater.inflate(R.layout.fragment_login, container , false)
+        return inflater.inflate(R.layout.fragment_user_login, container , false)
     }
 
 
@@ -40,7 +33,8 @@ class LoginFragment: Fragment() {
         val btnSignup = view.findViewById<Button>(R.id.buttonSignUp)
         btnSignup.setOnClickListener {
 
-            val intent = Intent(activity, RegistrationActivity::class.java)
+            val intent = Intent(activity, UserRegistrationActivity::class.java)
+            activity?.finish()
             activity?.startActivity(intent)
         }
 

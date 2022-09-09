@@ -8,14 +8,14 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
-class RecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>, private val ids: ArrayList<String>, private val athletes: HashMap<String, Athlete>): RecyclerView.Adapter<RecyclerAdapter.ViewHolder>() {
+class TeamRecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>, private val ids: ArrayList<String>, private val athletes: HashMap<String, Athlete>): RecyclerView.Adapter<TeamRecyclerAdapter.ViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): TeamRecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.layout_athlete_card, parent, false)
         return ViewHolder(v)
     }
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: TeamRecyclerAdapter.ViewHolder, position: Int) {
         holder.title.text = names[position]
         holder.image.setImageResource(images[position])
         holder.id = ids[position]

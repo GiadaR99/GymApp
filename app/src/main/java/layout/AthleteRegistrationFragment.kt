@@ -29,7 +29,7 @@ class AthleteRegistrationFragment: Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        return inflater.inflate(R.layout.fragment_member_reg, container , false)
+        return inflater.inflate(R.layout.fragment_athlete_registration, container , false)
     }
 
     @SuppressLint("CutPasteId")
