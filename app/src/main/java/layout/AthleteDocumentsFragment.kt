@@ -10,19 +10,22 @@ import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.gymapp.DocumentRecyclerAdapter
 import com.example.gymapp.R
+import com.google.firebase.storage.StorageReference
 
 
-class AthleteFileFragment : Fragment() {
+class AthleteDocumentsFragment : Fragment() {
 
     private var layoutManager: RecyclerView.LayoutManager? = null
     private var adapter: RecyclerView.Adapter<DocumentRecyclerAdapter.ViewHolder>? = null
+    // Create a storage reference from our app
+    //var storageRef = storage.reference
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_athlete_file, container, false)
+        return inflater.inflate(R.layout.fragment_athlete_documents, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

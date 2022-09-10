@@ -33,6 +33,12 @@ class MainActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
 
+    var athletes: HashMap<String, Athlete> = HashMap()
+    var names : ArrayList<String> = ArrayList()
+    var images : ArrayList<Int> = ArrayList()
+    var ids : ArrayList<String> = ArrayList()
+    var numbers : ArrayList<String> = ArrayList()
+
 
     @SuppressLint("UseCompatLoadingForDrawables")
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -108,6 +114,13 @@ class MainActivity : AppCompatActivity() {
         messageFAB.setOnClickListener {
             Toast.makeText(this@MainActivity, "Message clicked..", Toast.LENGTH_LONG).show()
             //SHOW SELECT PEOPLE FOR MESSAGE ACTIVITY
+
+            val dialog = Dialog(this)
+            //dialog.setContentView(R.layout.dialog_add_member)
+            dialog.show()
+
+
+
         }
 
         addFAB.setOnClickListener {
@@ -116,6 +129,7 @@ class MainActivity : AppCompatActivity() {
 
             //PER APRIRE ACTIVITY CON FRAGMENT
             val intent = Intent(this, AthleteRegistrationActivity::class.java)
+            intent.putExtra("operation", "registration")
             this.finish()
             this.startActivity(intent)
 
@@ -128,12 +142,10 @@ class MainActivity : AppCompatActivity() {
     fun setListsAndLayoutFromDB(){
 
         //ATHLETES LIST
-        //var athletes: ArrayList<Athlete> = ArrayList()
-        var athletes: HashMap<String, Athlete> = HashMap()
+
+
         //INIT LISTS
-        var names : ArrayList<String> = ArrayList()
-        var images : ArrayList<Int> = ArrayList()
-        var ids : ArrayList<String> = ArrayList()
+
 
         //names=initNamesArray(names)
         db.collection("coach").document(mAuth.uid!!).collection("team")
@@ -154,6 +166,7 @@ class MainActivity : AppCompatActivity() {
                     //
                     names.add(name+" "+surname)
                     ids.add(id)
+                    numbers.add(phone)
                     if(pic==0){
                         images.add(R.drawable.logo)
                     }else{

@@ -12,8 +12,7 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
-import com.example.gymapp.MainActivity
-import com.example.gymapp.R
+import com.example.gymapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -36,6 +35,22 @@ class AthleteRegistrationFragment: Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        if (requireActivity().intent.getStringExtra("operation").equals("modify")){
+
+            val athlete: Athlete = requireActivity().intent.getSerializableExtra("athlete") as Athlete
+
+            view.findViewById<TextView>(R.id.editTextName).text = athlete.name
+            view.findViewById<TextView>(R.id.editTextSurname).text = athlete.surname
+            view.findViewById<TextView>(R.id.textViewBirthDay).text = athlete.birthDay
+            view.findViewById<TextView>(R.id.editTextAddress).text = athlete.address
+            view.findViewById<TextView>(R.id.editTextCAP).text = athlete.cap
+            view.findViewById<TextView>(R.id.editTextPhone).text = athlete.phone
+            view.findViewById<TextView>(R.id.editTextTextEmailAddress).text = athlete.emailAddress
+
+            view.findViewById<Button>(R.id.btnRegister).text = "Modifica"
+        }
+
+
         //ON CLICK LISTENER DATA
         var date = view.findViewById<TextView>(R.id.textViewBirthDay)
         date.setOnClickListener {
@@ -57,7 +72,15 @@ class AthleteRegistrationFragment: Fragment() {
         //ON CLICK LISTENER ANNULLA
         val btnCancel = view.findViewById<Button>(R.id.btnCancel)
         btnCancel.setOnClickListener{
-            val intent = Intent(activity, MainActivity::class.java)
+            var intent:Intent
+            if (requireActivity().intent.getStringExtra("operation").equals("modify")){
+                intent= Intent(activity, AthleteActivity::class.java)
+                intent.putExtra(ATHLETE_EXTRA, requireActivity().intent.getSerializableExtra("athlete"))
+                intent.putExtra(ATHLETE_ID_EXTRA, requireActivity().intent.getStringExtra("athlete_id"))
+
+            }else{
+                intent= Intent(activity, MainActivity::class.java)
+            }
             activity?.finish()
             activity?.startActivity(intent)
         }
@@ -69,7 +92,7 @@ class AthleteRegistrationFragment: Fragment() {
             val edtsurname = view.findViewById<EditText>(R.id.editTextSurname)
             val tvbirthday = view.findViewById<TextView>(R.id.textViewBirthDay)
             val edtaddress = view.findViewById<EditText>(R.id.editTextAddress)
-            val edtcap = view.findViewById<EditText>(R.id.editTextPostalAddress)
+            val edtcap = view.findViewById<EditText>(R.id.editTextCAP)
             val edtphone = view.findViewById<EditText>(R.id.editTextPhone)
             val edtemail = view.findViewById<EditText>(R.id.editTextTextEmailAddress)
 
@@ -81,48 +104,74 @@ class AthleteRegistrationFragment: Fragment() {
             var phone = edtphone.text.toString()
             var email = edtemail.text.toString()
 
-            edtname.error=null
+            /*edtname.error=null
             edtsurname.error=null
             tvbirthday.error=null
             edtaddress.error=null
             edtcap.error=null
             edtphone.error=null
-            edtemail.error=null
+            edtemail.error=null*/
 
-            //CONDITIONS
-            val a = name.trim().equals("", true)
-            val b = surname.trim().equals("", true)
-            val c = birthday.trim().equals("", true)
-            val d = address.trim().equals("", true)
-            val e = cap.trim().equals("", true)||cap.length<5
-            val f = phone.trim().equals("", true)
-            val g = email.trim().equals("", true)
-            val h = !email.matches(Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{2,})"))
+            var modified = true
 
-            if(a)
-                edtname.error = "Il campo non può essere vuoto"
-            if(b)
-                edtsurname.error = "Il campo non può essere vuoto"
-            if (c)
-                tvbirthday.error = "Il campo non può essere vuoto"
-            if (d)
-                edtaddress.error = "Il campo non può essere vuoto"
-            if (e)
-                edtcap.error = "Il campo deve contenere 5 cifre"
-            if (f)
-                edtphone.error = "Il campo non può essere vuoto"
-            if (g) {
-                edtemail.error = "Il campo non può essere vuoto"
-            }else if (h) {
-                edtemail.error = "Email non valida"
+            if(requireActivity().intent.getStringExtra("operation")=="modify"){
+                modified = false
+                var oldAthlete: Athlete = requireActivity().intent.getSerializableExtra("athlete") as Athlete
+                if(!name.equals(oldAthlete.name)||
+                    !surname.equals(oldAthlete.surname)||
+                    !birthday.equals(oldAthlete.birthDay)||
+                    !address.equals(oldAthlete.address)||
+                    !cap.equals(oldAthlete.cap)||
+                    !phone.equals(oldAthlete.phone)||
+                    !email.equals(oldAthlete.emailAddress))
+                    modified=true
             }
 
-            if (!a&&!b&&!c&&!d&&!e&&!f&&!g&&!h)
-                signUp(name, surname, birthday, address, cap, phone, email)
+
+            if(modified){
+                //CONDITIONS
+                val a = name.trim().equals("", true)
+                val b = surname.trim().equals("", true)
+                val c = birthday.trim().equals("", true)
+                val d = address.trim().equals("", true)
+                val e = cap.trim().equals("", true)||cap.length<5
+                val f = phone.trim().equals("", true)
+                val g = email.trim().equals("", true)
+                val h = !email.matches(Regex("^[A-Za-z](.*)([@]{1})(.{1,})(\\.)(.{2,})"))
+
+                if(a)
+                    edtname.error = "Il campo non può essere vuoto"
+                if(b)
+                    edtsurname.error = "Il campo non può essere vuoto"
+                if (c)
+                    tvbirthday.error = "Il campo non può essere vuoto"
+                if (d)
+                    edtaddress.error = "Il campo non può essere vuoto"
+                if (e)
+                    edtcap.error = "Il campo deve contenere 5 cifre"
+                if (f)
+                    edtphone.error = "Il campo non può essere vuoto"
+                if (g) {
+                    edtemail.error = "Il campo non può essere vuoto"
+                }else if (h) {
+                    edtemail.error = "Email non valida"
+                }
+
+                if (!a&&!b&&!c&&!d&&!e&&!f&&!g&&!h){
+                    if(requireActivity().intent.getStringExtra("operation")=="modify")
+                        insertIntoDB(name, surname, birthday, address, cap, phone, email)
+                    else
+                        putIntoDB(name, surname, birthday, address, cap, phone, email)
+                }
+
+            }else{
+                Toast.makeText(requireActivity(), "Non è stata apportata alcuna modifica", Toast.LENGTH_SHORT).show()
+            }
         }
+
     }
 
-    private fun signUp(
+    private fun insertIntoDB(
         name: String,
         surname: String,
         birthday: String,
@@ -131,7 +180,58 @@ class AthleteRegistrationFragment: Fragment() {
         phone: String,
         email: String
     ) {
-        //REGISTRAZIONE NEL DATABASE
+            var id = requireActivity().intent.getStringExtra("athlete_id")
+            db.collection("coach").document(mAuth.uid!!).collection("team").document(id!!)
+                .delete()
+                .addOnSuccessListener {
+                    putIntoDBWithCustomizedId(name,surname,birthday,address,cap,phone,email)
+                }
+                .addOnFailureListener {
+                    Toast.makeText(context, "Operazione fallita!", Toast.LENGTH_SHORT).show()
+                }
+    }
+
+    private fun putIntoDBWithCustomizedId(
+        name: String,
+        surname: String,
+        birthday: String,
+        address: String,
+        cap: String,
+        phone: String,
+        email: String
+    ) {
+        var id = activity?.intent?.getStringExtra("athlete_id")
+        db.collection("coach").document(mAuth.uid!!).collection("team").document(id!!).set(hashMapOf(
+            "name" to name,
+            "surname" to surname,
+            "birthday" to birthday,
+            "address" to address,
+            "cap" to cap,
+            "phone" to phone,
+            "email" to email
+        )).addOnSuccessListener {
+            var intent:Intent = Intent(activity, AthleteActivity::class.java)
+            intent.putExtra(ATHLETE_EXTRA, Athlete(name,surname,birthday,address,cap,phone,email,0))
+            intent.putExtra(ATHLETE_ID_EXTRA, id)
+            Toast.makeText(context, "modifica riuscita", Toast.LENGTH_SHORT).show()
+            activity?.finish()
+            activity?.startActivity(intent)
+        }
+            .addOnFailureListener {
+                Toast.makeText(context, "Operazione fallita", Toast.LENGTH_SHORT).show()
+            }
+    }
+
+    private fun putIntoDB(
+        name: String,
+        surname: String,
+        birthday: String,
+        address: String,
+        cap: String,
+        phone: String,
+        email: String
+    ) {
+
         db.collection("coach").document(mAuth.uid!!).collection("team").add(hashMapOf(
             "name" to name,
             "surname" to surname,
@@ -141,13 +241,13 @@ class AthleteRegistrationFragment: Fragment() {
             "phone" to phone,
             "email" to email
         )).addOnSuccessListener {
+            var intent:Intent = Intent(activity, MainActivity::class.java)
             Toast.makeText(context, "Registrazione riuscita", Toast.LENGTH_SHORT).show()
-            val intent = Intent(activity, MainActivity::class.java)
             activity?.finish()
             activity?.startActivity(intent)
         }
             .addOnFailureListener {
-                Toast.makeText(context, "Registrazione fallita", Toast.LENGTH_SHORT).show()
+                Toast.makeText(context, "Operazione fallita", Toast.LENGTH_SHORT).show()
             }
     }
 }

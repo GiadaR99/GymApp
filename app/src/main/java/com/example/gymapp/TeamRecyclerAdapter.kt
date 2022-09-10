@@ -1,5 +1,6 @@
 package com.example.gymapp
 
+import android.app.Activity
 import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
@@ -34,6 +35,7 @@ class TeamRecyclerAdapter(private val names: ArrayList<String>, private val imag
                 val intent = Intent(itemView.context, AthleteActivity::class.java)
                 intent.putExtra(ATHLETE_EXTRA,athletes[id])
                 intent.putExtra(ATHLETE_ID_EXTRA, id)
+                (itemView.context as MainActivity).finish()
                 itemView.context.startActivity(intent)
 
             }

@@ -22,12 +22,12 @@ class AthleteActivity : AppCompatActivity() {
         setFloatingActionButtons()
     }
 
-    /*override fun onBackPressed() {
+    override fun onBackPressed() {
         super.onBackPressed()
         val intent = Intent(this, MainActivity::class.java)
         this.finish()
         this.startActivity(intent)
-    }*/
+    }
 
     fun setFloatingActionButtons() {
         var mainFAB = findViewById<FloatingActionButton>(R.id.FABBase)
@@ -86,6 +86,17 @@ class AthleteActivity : AppCompatActivity() {
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
             builder.setMessage("Confermi l'eliminazione?").setPositiveButton("Yes", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show()
+        }
+
+
+        modifyFAB.setOnClickListener {
+            val intent = Intent(this, AthleteRegistrationActivity::class.java)
+            intent.putExtra("operation", "modify")
+            intent.putExtra("athlete", this.intent.getSerializableExtra(ATHLETE_EXTRA))
+            intent.putExtra("athlete_id", this.intent.getStringExtra(ATHLETE_ID_EXTRA))
+            this.finish()
+            this.startActivity(intent)
+
         }
 
     }
