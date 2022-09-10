@@ -24,7 +24,7 @@ class AthleteRegistrationActivity : AppCompatActivity() {
          val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
                 result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
-                val selectedImage : Uri? = intentImg.data //as Uri
+                val selectedImage : Uri? = result.data?.data //as Uri
                 val pth = selectedImage?.path
                 Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_SHORT).show()
                 Toast.makeText(this, pth, Toast.LENGTH_SHORT).show()
