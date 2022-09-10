@@ -25,7 +25,7 @@ import com.example.gymapp.UriPathHelper
 
 class AthletePicFragment : Fragment() {
 
-    private val uriPathHelper = UriPathHelper()
+    /*private val uriPathHelper = UriPathHelper()
     var picturePath: String? = ""
     private var intentImg: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
@@ -50,7 +50,7 @@ class AthletePicFragment : Fragment() {
             view?.findViewById<ImageButton>(R.id.imageButton)?.setImageURI(picturePath?.toUri())
             Toast.makeText(context, picturePath.toString(), Toast.LENGTH_SHORT).show()
         }
-    }
+    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -67,16 +67,16 @@ class AthletePicFragment : Fragment() {
         view.findViewById<TextView>(R.id.titleNameSurname).text = athlete.name+" "+athlete.surname
         view.findViewById<ImageButton>(R.id.imageButton).setImageResource(athlete.pic)
 
-        val picButton = view.findViewById<ImageButton>(R.id.imageButton)
+        /*val picButton = view.findViewById<ImageButton>(R.id.imageButton)
         picButton.setOnClickListener {
             getImage()
             //picButton.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-        }
+        }*/
     }
 
-    private fun getImage(){
+    /*private fun getImage(){
         startForResult.launch(intentImg)
-    }
+    }*/
 
     fun getRealPathFromUri(context: Context, contentUri: Uri?): String? {
         var cursor: Cursor? = null
