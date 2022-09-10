@@ -8,8 +8,17 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
+import layout.AthleteDocumentsFragment
 
-class DocumentRecyclerAdapter(private val names: ArrayList<String>, private val images: ArrayList<Int>): RecyclerView.Adapter<DocumentRecyclerAdapter.ViewHolder>() {
+class DocumentRecyclerAdapter(
+    private val names: ArrayList<String>,
+    private val images: ArrayList<Int>,
+    private val intentDoc: Intent,
+    private val athleteDocumentsFragment: AthleteDocumentsFragment
+): RecyclerView.Adapter<DocumentRecyclerAdapter.ViewHolder>() {
+
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): DocumentRecyclerAdapter.ViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.layout_documents_card, parent, false)
@@ -37,6 +46,14 @@ class DocumentRecyclerAdapter(private val names: ArrayList<String>, private val 
                     //rimozione add da lista
                     //aggiunta nuovo file
                     //aggiunta add in coda
+
+                    //INTENT SCELTA
+                    athleteDocumentsFragment.startForResult.launch(intentDoc)
+
+
+
+
+
                 }else{
                     Toast.makeText(itemView.context, "Apertura file: "+title.text+" ...", Toast.LENGTH_SHORT).show()
                 }
@@ -44,4 +61,6 @@ class DocumentRecyclerAdapter(private val names: ArrayList<String>, private val 
         }
 
     }
+
+
 }

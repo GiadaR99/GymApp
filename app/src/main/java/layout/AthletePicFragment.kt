@@ -1,7 +1,9 @@
 package layout
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.database.Cursor
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
@@ -23,14 +25,16 @@ import com.example.gymapp.UriPathHelper
 
 class AthletePicFragment : Fragment() {
 
-    val uriPathHelper = UriPathHelper()
+    private val uriPathHelper = UriPathHelper()
     var picturePath: String? = ""
     private var intentImg: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val selectedImage : Uri? = intentImg.data
+            val selectedImage : Uri? = intentImg.data //as Uri
+            val pth = selectedImage?.path
             Toast.makeText(context, selectedImage.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, pth, Toast.LENGTH_SHORT).show()
             //val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
             //val cursor: android.database.Cursor? = requireContext().contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
             //cursor?.moveToFirst()
@@ -39,7 +43,10 @@ class AthletePicFragment : Fragment() {
             //cursor.close()
 
             //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-            picturePath = uriPathHelper.getPath(requireContext(), selectedImage!!)
+            //picturePath = uriPathHelper.getPath(requireContext(), selectedImage!!)
+
+            picturePath=getRealPathFromUri(requireContext(), selectedImage)
+
             view?.findViewById<ImageButton>(R.id.imageButton)?.setImageURI(picturePath?.toUri())
             Toast.makeText(context, picturePath.toString(), Toast.LENGTH_SHORT).show()
         }
@@ -69,6 +76,21 @@ class AthletePicFragment : Fragment() {
 
     private fun getImage(){
         startForResult.launch(intentImg)
+    }
+
+    fun getRealPathFromUri(context: Context, contentUri: Uri?): String? {
+        var cursor: Cursor? = null
+        return try {
+            val proj = arrayOf(MediaStore.Images.Media.DATA)
+            cursor = context.getContentResolver().query(contentUri!!, proj, null, null, null)
+            val column_index: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
+            cursor?.moveToFirst()
+            cursor?.getString(column_index)
+        } finally {
+            if (cursor != null) {
+                cursor.close()
+            }
+        }
     }
 
     }

@@ -84,7 +84,7 @@ class AthleteActivity : AppCompatActivity() {
                 }
 
             val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-            builder.setMessage("Confermi l'eliminazione?").setPositiveButton("Yes", dialogClickListener)
+            builder.setMessage("Confermi l'eliminazione?").setPositiveButton("Sì", dialogClickListener)
                 .setNegativeButton("No", dialogClickListener).show()
         }
 
