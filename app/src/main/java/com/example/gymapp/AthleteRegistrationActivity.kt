@@ -35,10 +35,12 @@ class AthleteRegistrationActivity : AppCompatActivity() {
 
             val pic: Uri? = intent.getStringExtra("image")?.toUri()
             var imgb = findViewById<ImageButton>(R.id.imageButtonReg)
-            if (pic!=null){
+            if (!pic.toString().equals("null")){
+                Toast.makeText(this,"picasso: "+pic.toString(), Toast.LENGTH_SHORT).show()
                 Picasso.get().load(pic).into(imgb);
             }
             else{
+                Toast.makeText(this,"null: "+pic.toString(), Toast.LENGTH_SHORT).show()
                 imgb.setImageResource(R.drawable.user_pic)
             }
         }
