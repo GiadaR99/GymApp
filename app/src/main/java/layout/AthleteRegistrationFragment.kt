@@ -11,17 +11,21 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.gymapp.*
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import com.google.firebase.storage.FirebaseStorage
+import java.io.File
 import java.util.*
 
 class AthleteRegistrationFragment: Fragment() {
 
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
+    val storageRef = FirebaseStorage.getInstance().reference
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -113,6 +117,7 @@ class AthleteRegistrationFragment: Fragment() {
             edtemail.error=null*/
 
             var modified = true
+            var picModified = (activity as AthleteRegistrationActivity).getImgModified()
 
             if(requireActivity().intent.getStringExtra("operation")=="modify"){
                 modified = false
@@ -130,6 +135,7 @@ class AthleteRegistrationFragment: Fragment() {
 
             if(modified){
                 //CONDITIONS
+                mangeTextModify(edtname,edtsurname,tvbirthday,edtaddress,edtcap,edtphone,edtemail)
                 val a = name.trim().equals("", true)
                 val b = surname.trim().equals("", true)
                 val c = birthday.trim().equals("", true)
@@ -159,15 +165,47 @@ class AthleteRegistrationFragment: Fragment() {
 
                 if (!a&&!b&&!c&&!d&&!e&&!f&&!g&&!h){
                     if(requireActivity().intent.getStringExtra("operation")=="modify")
-                        insertIntoDB(name, surname, birthday, address, cap, phone, email)
+                        insertIntoDB(name, surname, birthday, address, cap, phone, email, picModified)
+
                     else
-                        putIntoDB(name, surname, birthday, address, cap, phone, email)
+                        putIntoDB(name, surname, birthday, address, cap, phone, email, picModified)
                 }
 
-            }else{
+            }else if (picModified) {
+                addPicToDB(requireActivity().intent.getStringExtra("athlete_id")!!)
+            } else{
                 Toast.makeText(requireActivity(), "Non è stata apportata alcuna modifica", Toast.LENGTH_SHORT).show()
             }
         }
+
+    }
+
+    private fun addPicToDB(id: String) {
+        var pic = (activity as AthleteRegistrationActivity).getPicturePath()
+        var y = storageRef.child(mAuth.uid!!+"/"+id+"/pic")
+
+        y.listAll().addOnSuccessListener {
+                results ->
+            for (res in results.items)
+                res.delete()
+        }
+
+        var x = storageRef.child(mAuth.uid!!)
+            .child(id+"/pic/"+
+                    pic.substring(pic.lastIndexOf('/')))
+
+        //x.putFile(pic.toUri())
+        x.putFile(File(pic).toUri())
+            .addOnSuccessListener {
+                Toast.makeText(activity, "Inserimento immagine riuscito", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener {
+                Toast.makeText(activity, "Inserimento immagine fallito", Toast.LENGTH_SHORT).show()
+            }
+
+    }
+
+    private fun mangeTextModify(edtname: EditText?, edtsurname: EditText?, tvbirthday: TextView?, edtaddress: EditText?, edtcap: EditText?, edtphone: EditText?, edtemail: EditText?) {
 
     }
 
@@ -178,13 +216,14 @@ class AthleteRegistrationFragment: Fragment() {
         address: String,
         cap: String,
         phone: String,
-        email: String
+        email: String,
+        picModified: Boolean
     ) {
             var id = requireActivity().intent.getStringExtra("athlete_id")
             db.collection("coach").document(mAuth.uid!!).collection("team").document(id!!)
                 .delete()
                 .addOnSuccessListener {
-                    putIntoDBWithCustomizedId(name,surname,birthday,address,cap,phone,email)
+                    putIntoDBWithCustomizedId(name,surname,birthday,address,cap,phone,email, picModified)
                 }
                 .addOnFailureListener {
                     Toast.makeText(context, "Operazione fallita!", Toast.LENGTH_SHORT).show()
@@ -198,7 +237,8 @@ class AthleteRegistrationFragment: Fragment() {
         address: String,
         cap: String,
         phone: String,
-        email: String
+        email: String,
+        picModified: Boolean
     ) {
         var id = activity?.intent?.getStringExtra("athlete_id")
         db.collection("coach").document(mAuth.uid!!).collection("team").document(id!!).set(hashMapOf(
@@ -213,6 +253,8 @@ class AthleteRegistrationFragment: Fragment() {
             var intent:Intent = Intent(activity, AthleteActivity::class.java)
             intent.putExtra(ATHLETE_EXTRA, Athlete(name,surname,birthday,address,cap,phone,email,0))
             intent.putExtra(ATHLETE_ID_EXTRA, id)
+            if (picModified)
+                addPicToDB(id)
             Toast.makeText(context, "modifica riuscita", Toast.LENGTH_SHORT).show()
             activity?.finish()
             activity?.startActivity(intent)
@@ -229,7 +271,8 @@ class AthleteRegistrationFragment: Fragment() {
         address: String,
         cap: String,
         phone: String,
-        email: String
+        email: String,
+        picModified: Boolean
     ) {
 
         db.collection("coach").document(mAuth.uid!!).collection("team").add(hashMapOf(
@@ -241,6 +284,8 @@ class AthleteRegistrationFragment: Fragment() {
             "phone" to phone,
             "email" to email
         )).addOnSuccessListener {
+            if (picModified)
+                addPicToDB(it.id)
             var intent:Intent = Intent(activity, MainActivity::class.java)
             Toast.makeText(context, "Registrazione riuscita", Toast.LENGTH_SHORT).show()
             activity?.finish()
