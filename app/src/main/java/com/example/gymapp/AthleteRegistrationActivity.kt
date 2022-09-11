@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.widget.Button
 import android.widget.ImageButton
 import android.widget.TextView
 import android.widget.Toast
@@ -16,6 +17,7 @@ import androidx.core.graphics.scale
 import androidx.core.net.toUri
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
+import com.squareup.picasso.Picasso
 
 
 class AthleteRegistrationActivity : AppCompatActivity() {
@@ -26,6 +28,21 @@ class AthleteRegistrationActivity : AppCompatActivity() {
     private var imgModified: Boolean = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_athlete_registration)
+
+        if (intent.getStringExtra("operation").equals("modify")){
+
+            val pic: Uri? = intent.getStringExtra("image")?.toUri()
+            var imgb = findViewById<ImageButton>(R.id.imageButtonReg)
+            if (pic!=null){
+                Picasso.get().load(pic).into(imgb);
+            }
+            else{
+                imgb.setImageResource(R.drawable.user_pic)
+            }
+        }
+
         setImgModified(false)
         //val uriPathHelper = UriPathHelper()
         //var picturePath: String? = ""
@@ -34,9 +51,9 @@ class AthleteRegistrationActivity : AppCompatActivity() {
                 result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val selectedImage : Uri? = result.data?.data //as Uri
-                val pth = selectedImage?.path
+                //val pth = selectedImage?.path
                 Toast.makeText(this, selectedImage.toString(), Toast.LENGTH_SHORT).show()
-                Toast.makeText(this, pth, Toast.LENGTH_SHORT).show()
+                //Toast.makeText(this, pth, Toast.LENGTH_SHORT).show()
                 val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
                 val cursor: android.database.Cursor? = contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
                 cursor?.moveToFirst()
@@ -59,8 +76,7 @@ class AthleteRegistrationActivity : AppCompatActivity() {
             }
         }
 
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_athlete_registration)
+
 
         if (this.intent.getStringExtra("operation").equals("modify")){
             findViewById<TextView>(R.id.textView).text = "Modifica membro Team"

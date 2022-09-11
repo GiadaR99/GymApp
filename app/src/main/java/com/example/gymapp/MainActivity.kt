@@ -35,7 +35,7 @@ class MainActivity : AppCompatActivity() {
 
     var athletes: HashMap<String, Athlete> = HashMap()
     var names : ArrayList<String> = ArrayList()
-    var images : ArrayList<Int> = ArrayList()
+    //var images : ArrayList<Uri?> = ArrayList()
     var ids : ArrayList<String> = ArrayList()
     var numbers : ArrayList<String> = ArrayList()
 
@@ -50,8 +50,6 @@ class MainActivity : AppCompatActivity() {
 
         //FLOATING ACTION BUTTONS
         setFloatingActionButtons()
-
-
 
     }
 
@@ -84,7 +82,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
-    fun setFloatingActionButtons(){
+    private fun setFloatingActionButtons(){
         mainFAB = findViewById(R.id.floatingActionButton)
         messageFAB = findViewById(R.id.idFABMessage)
         addFAB = findViewById(R.id.idFABAdd)
@@ -139,15 +137,12 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    fun setListsAndLayoutFromDB(){
+    private fun setListsAndLayoutFromDB(){
 
         //ATHLETES LIST
 
-
         //INIT LISTS
 
-
-        //names=initNamesArray(names)
         db.collection("coach").document(mAuth.uid!!).collection("team")
             .get()
             .addOnSuccessListener { documents ->
@@ -160,22 +155,11 @@ class MainActivity : AppCompatActivity() {
                     var cap: String = document.get("cap").toString()
                     var phone: String = document.get("phone").toString()
                     var email: String = document.get("email").toString()
-                    var pic: Int = 0;
-                    //initiaize pic
-                    //var pic = ....firestore cloud
-                    //
                     names.add(name+" "+surname)
                     ids.add(id)
                     numbers.add(phone)
-                    if(pic==0){
-                        images.add(R.drawable.logo)
-                    }else{
-                        images.add(pic)
-                    }
-
-                    //athletes.add(id, Athlete(id,name,surname,birthDay,address,cap,phone,email,pic))
                     athletes[id] =
-                        Athlete(name, surname, birthDay, address, cap, phone, email, pic)
+                        Athlete(name, surname, birthDay, address, cap, phone, email)
 
                 }
                 //Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
@@ -193,12 +177,14 @@ class MainActivity : AppCompatActivity() {
                 var txt = findViewById<TextView>(R.id.textViewEmptyTeam)
                 if(athletes.isEmpty()){
                     txt.visibility = View.VISIBLE
+                    Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, ids.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, athletes.toString(), Toast.LENGTH_SHORT).show()
                 }else{
                     txt.visibility = View.GONE
                 }
 
-                //TO CORRECT!!!!
-                adapter=TeamRecyclerAdapter(names, images, ids, athletes)
+                adapter=TeamRecyclerAdapter(names, ids, athletes, this)
                 recyclerView.adapter=adapter
 
             }

@@ -1,56 +1,21 @@
 package layout
 
-import android.app.Activity
-import android.content.Context
-import android.content.Intent
-import android.database.Cursor
-import android.net.Uri
 import android.os.Bundle
-import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageButton
+import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.activity.result.ActivityResult
-import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.net.toUri
 import androidx.fragment.app.Fragment
 import com.example.gymapp.ATHLETE_EXTRA
 import com.example.gymapp.Athlete
 import com.example.gymapp.R
-import com.example.gymapp.UriPathHelper
+import com.squareup.picasso.*
 
 
 class AthletePicFragment : Fragment() {
-
-    /*private val uriPathHelper = UriPathHelper()
-    var picturePath: String? = ""
-    private var intentImg: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-    private val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
-            result: ActivityResult ->
-        if (result.resultCode == Activity.RESULT_OK) {
-            val selectedImage : Uri? = intentImg.data //as Uri
-            val pth = selectedImage?.path
-            Toast.makeText(context, selectedImage.toString(), Toast.LENGTH_SHORT).show()
-            Toast.makeText(context, pth, Toast.LENGTH_SHORT).show()
-            //val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-            //val cursor: android.database.Cursor? = requireContext().contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
-            //cursor?.moveToFirst()
-            //val columnIndex: Int = cursor!!.getColumnIndex(filePathColumn[0])
-            //picturePath= cursor.getString(columnIndex)
-            //cursor.close()
-
-            //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-            //picturePath = uriPathHelper.getPath(requireContext(), selectedImage!!)
-
-            picturePath=getRealPathFromUri(requireContext(), selectedImage)
-
-            view?.findViewById<ImageButton>(R.id.imageButton)?.setImageURI(picturePath?.toUri())
-            Toast.makeText(context, picturePath.toString(), Toast.LENGTH_SHORT).show()
-        }
-    }*/
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -64,34 +29,46 @@ class AthletePicFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         var athlete: Athlete = activity?.intent?.getSerializableExtra(ATHLETE_EXTRA) as Athlete
+        Toast.makeText(context, athlete.toString() , Toast.LENGTH_SHORT).show()
         view.findViewById<TextView>(R.id.titleNameSurname).text = athlete.name+" "+athlete.surname
-        view.findViewById<ImageButton>(R.id.imageButton).setImageResource(athlete.pic)
 
-        /*val picButton = view.findViewById<ImageButton>(R.id.imageButton)
-        picButton.setOnClickListener {
-            getImage()
-            //picButton.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-        }*/
-    }
+        //var uri: Uri? = activity?.intent?.getSerializableExtra("IMAGE_EXTRA") as Uri?
+        var uri = activity?.intent?.getStringExtra("IMAGE_EXTRA")
+        Toast.makeText(context, uri.toString() , Toast.LENGTH_SHORT).show()
 
-    /*private fun getImage(){
-        startForResult.launch(intentImg)
-    }*/
-
-    fun getRealPathFromUri(context: Context, contentUri: Uri?): String? {
-        var cursor: Cursor? = null
-        return try {
-            val proj = arrayOf(MediaStore.Images.Media.DATA)
-            cursor = context.getContentResolver().query(contentUri!!, proj, null, null, null)
-            val column_index: Int = cursor!!.getColumnIndexOrThrow(MediaStore.Images.Media.DATA)
-            cursor?.moveToFirst()
-            cursor?.getString(column_index)
-        } finally {
-            if (cursor != null) {
-                cursor.close()
-            }
+        if (!uri.equals("null")){
+            var p = view.findViewById<ImageView>(R.id.imageViewProfile)
+            //Picasso.get().invalidate(uri)
+            PicassoTools.clearCache(Picasso.get());
+            //Picasso.get().load(uri?.toUri()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.user_pic).into(p)
+            loadImage(p, uri!!)
+            Toast.makeText(context, "HO MESSO LA FOTO: "+uri.toString()+" nel pulsante "+view.findViewById<ImageView>(R.id.imageViewProfile).toString(), Toast.LENGTH_SHORT).show()
+        }else{
+            Toast.makeText(context, uri.toString() , Toast.LENGTH_SHORT).show()
+            view.findViewById<ImageView>(R.id.imageViewProfile).setImageResource(R.drawable.user_pic)
         }
+
     }
+
+    private fun loadImage(imageView: ImageView, imageUrl: String) {
+        Picasso.get()
+            .load(imageUrl)
+            .placeholder(R.drawable.user_pic)
+            .into(imageView, object : Callback {
+                override fun onSuccess() {}
+                override fun onError(e: Exception?) {
+                    val updatedImageUrl: String
+                    updatedImageUrl = if (imageUrl.contains("https")) {
+                        imageUrl.replace("https", "http")
+                    } else {
+                        imageUrl.replace("http", "https")
+                    }
+                    loadImage(imageView, updatedImageUrl)
+                }
+            })
+    }
+
+
 
     }
 

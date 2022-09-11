@@ -1,5 +1,6 @@
 package com.example.gymapp
 
+import android.net.Uri
 import java.io.Serializable
 import java.sql.Timestamp
 
@@ -15,20 +16,17 @@ class Athlete: Serializable {
     var phone: String
     var emailAddress: String
 
-    var pic: Int
-
-
 
     //constuctor(){}
 
-    constructor(name: String,
-                surname: String,
-                birthDay: String,
-                address: String,
-                cap: String,
-                phone: String,
-                emailAddress: String,
-                pic: Int
+    constructor(
+        name: String,
+        surname: String,
+        birthDay: String,
+        address: String,
+        cap: String,
+        phone: String,
+        emailAddress: String,
     ){
         this.name=name
         this.surname=surname
@@ -37,8 +35,6 @@ class Athlete: Serializable {
         this.cap=cap
         this.phone=phone
         this.emailAddress=emailAddress
-        this.pic=pic
-
 
     }
 
