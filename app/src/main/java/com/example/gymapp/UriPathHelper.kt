@@ -1,5 +1,6 @@
 package com.example.gymapp
 
+import android.annotation.SuppressLint
 import android.content.ContentUris
 import android.content.Context
 import android.database.Cursor
@@ -10,6 +11,7 @@ import android.provider.DocumentsContract
 import android.provider.MediaStore
 
 class UriPathHelper {
+    @SuppressLint("ObsoleteSdkInt")
     fun getPath(context: Context, uri: Uri): String? {
         val isKitKatorAbove = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT
 

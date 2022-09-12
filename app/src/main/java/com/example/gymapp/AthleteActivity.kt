@@ -1,5 +1,6 @@
 package com.example.gymapp
 
+import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
@@ -36,10 +37,11 @@ class AthleteActivity : AppCompatActivity() {
         this.startActivity(intent)
     }
 
-    fun setFloatingActionButtons() {
-        var mainFAB = findViewById<FloatingActionButton>(R.id.FABBase)
-        var modifyFAB = findViewById<FloatingActionButton>(R.id.FABModify)
-        var deleteFAB = findViewById<FloatingActionButton>(R.id.FABDelete)
+    @SuppressLint("UseCompatLoadingForDrawables")
+    private fun setFloatingActionButtons() {
+        val mainFAB = findViewById<FloatingActionButton>(R.id.FABBase)
+        val modifyFAB = findViewById<FloatingActionButton>(R.id.FABModify)
+        val deleteFAB = findViewById<FloatingActionButton>(R.id.FABDelete)
         var fabVisible = false
 
         mainFAB.setOnClickListener {

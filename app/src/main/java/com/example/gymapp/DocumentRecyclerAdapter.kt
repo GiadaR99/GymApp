@@ -47,10 +47,6 @@ class DocumentRecyclerAdapter(
                     //INTENT SCELTA
                     athleteDocumentsFragment.startForResult.launch(intentDoc)
 
-
-
-
-
                 }else{
                     Toast.makeText(itemView.context, "Apertura file: "+title.text+" ...", Toast.LENGTH_SHORT).show()
                 }

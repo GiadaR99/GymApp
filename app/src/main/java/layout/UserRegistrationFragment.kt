@@ -37,7 +37,7 @@ class UserRegistrationFragment : Fragment() {
             val edtea = view.findViewById<EditText>(R.id.editTextEmailAddress)
             val edtp = view.findViewById<EditText>(R.id.editTextPassword)
             val edtpr = view.findViewById<EditText>(R.id.editTextPasswordRep)
-            var email = edtea.text.toString()
+            val email = edtea.text.toString()
             val password = edtp.text.toString()
             val passwordRep = edtpr.text.toString()
 
@@ -63,8 +63,6 @@ class UserRegistrationFragment : Fragment() {
             if (e) {
                 (edtp).error = "La password deve contenere almeno 6 caratteri, di cui almeno un numero e una lettera maiuscola"
             }
-
-
             if(!a&&b&&!d&&!e) {
                 signUp(email, password)
             }
@@ -79,7 +77,6 @@ class UserRegistrationFragment : Fragment() {
         mAuth.createUserWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Sign in success, jump to home
-                    //addCoachToDB(mAuth.uid)
                     Toast.makeText(activity, "Registrazione completata", Toast.LENGTH_LONG).show()
                     val intent = Intent(activity, UserLoginActivity::class.java)
                     activity?.finish()
@@ -87,50 +84,8 @@ class UserRegistrationFragment : Fragment() {
 
                 } else {
                     // If sign in fails, display a message to the user.
-                    //Toast.makeText(activity, task.result.toString(), Toast.LENGTH_SHORT).show()
                     Toast.makeText(activity, "Errore durante la registrazione", Toast.LENGTH_SHORT).show()
                 }
-            }
+        }
     }
-
-    private fun addCoachToDB(uid: String?) {
-        db.collection("coach").document(uid!!).collection("team").add(hashMapOf(
-            "name" to "A"
-        ))
-            //.addOnSuccessListener { documentReference ->
-            //Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            //}
-            //.addOnFailureListener { e ->
-            //    Log.w(TAG, "Error adding document", e)
-            //}
-
-    }
-
-    /*private fun addMembersToDatabase() {
-        //val mAuth= FirebaseAuth.getInstance()
-        Toast.makeText(activity, "eccco", Toast.LENGTH_SHORT).show()
-        addMemberToDB("A", "a", "0")
-        addMemberToDB("B", "b", "1")
-        addMemberToDB("c", "c", "2")
-        addMemberToDB("D", "d", "3")
-        addMemberToDB("E", "e", "4")
-        //mAuth.uid
-
-    }
-
-    private fun addMemberToDB(name: String, surname: String, uid: String) {
-        val member = hashMapOf(
-            "name" to name,
-            "surname" to surname,
-            "uid" to uid
-        )
-        db.collection("users")
-            .add(member)
-            .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "DocumentSnapshot added with ID: ${documentReference.id}")
-            }
-            .addOnFailureListener { e ->
-                Log.w(TAG, "Error adding document", e)
-            }
-    }*/
 }

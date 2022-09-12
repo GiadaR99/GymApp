@@ -21,7 +21,7 @@ class AthletePersonalInfoFragment: Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        var athlete: Athlete = activity?.intent?.getSerializableExtra(ATHLETE_EXTRA) as Athlete
+        val athlete: Athlete = activity?.intent?.getSerializableExtra(ATHLETE_EXTRA) as Athlete
         view.findViewById<TextView>(R.id.txtAddress).text = athlete.address
         view.findViewById<TextView>(R.id.txtCAP).text = athlete.cap
         view.findViewById<TextView>(R.id.bdText).text = athlete.birthDay

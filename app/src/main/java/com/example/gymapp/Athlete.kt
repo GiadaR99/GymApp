@@ -17,8 +17,6 @@ class Athlete: Serializable {
     var emailAddress: String
 
 
-    //constuctor(){}
-
     constructor(
         name: String,
         surname: String,

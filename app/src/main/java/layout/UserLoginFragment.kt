@@ -15,7 +15,6 @@ import com.google.firebase.auth.FirebaseAuth
 
 class UserLoginFragment: Fragment() {
     private lateinit var mAuth: FirebaseAuth
-    //private val db = Firebase.firestore
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -47,7 +46,7 @@ class UserLoginFragment: Fragment() {
             val password = (edtp).text.toString()
             if (!email.trim().equals("")&&!password.trim().equals(""))
                 login(email, password)
-            else Toast.makeText(activity, "Login Fallito", Toast.LENGTH_SHORT)
+            else Toast.makeText(activity, "Login Fallito", Toast.LENGTH_SHORT).show()
         }
 
     }
@@ -56,7 +55,6 @@ class UserLoginFragment: Fragment() {
         mAuth.signInWithEmailAndPassword(email, password).addOnCompleteListener(requireActivity()) { task ->
                 if (task.isSuccessful) {
                     // Login
-                    //addMembersToDatabase()
                     Toast.makeText(activity, "Login completato", Toast.LENGTH_LONG).show()
                     val intent = Intent(activity, MainActivity::class.java)
                     activity?.finish()

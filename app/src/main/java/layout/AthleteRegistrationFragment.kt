@@ -26,7 +26,7 @@ class AthleteRegistrationFragment: Fragment() {
     //RIFERIMENTI DATABASE
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
-    val storageRef = FirebaseStorage.getInstance().reference
+    private val storageRef = FirebaseStorage.getInstance().reference
     lateinit var operation: String
     lateinit var athlete: Athlete
     lateinit var id: String
@@ -61,17 +61,17 @@ class AthleteRegistrationFragment: Fragment() {
             view.findViewById<TextView>(R.id.editTextCAP).text = athlete.cap
             view.findViewById<TextView>(R.id.editTextPhone).text = athlete.phone
             view.findViewById<TextView>(R.id.editTextTextEmailAddress).text = athlete.emailAddress
-            view.findViewById<Button>(R.id.btnRegister).text = "Modifica"
+            view.findViewById<Button>(R.id.btnRegister).text = getString(R.string.modifica)
         }
 
 
         //ON CLICK LISTENER DATE PICKER
-        var date = view.findViewById<TextView>(R.id.textViewBirthDay)
+        val date = view.findViewById<TextView>(R.id.textViewBirthDay)
         date.setOnClickListener {
-            var calendar: Calendar = Calendar.getInstance()
-            var mYear = calendar.get(Calendar.YEAR)
-            var mMonth = calendar.get(Calendar.MONTH)
-            var mDay = calendar.get(Calendar.DAY_OF_MONTH)
+            val calendar: Calendar = Calendar.getInstance()
+            val mYear = calendar.get(Calendar.YEAR)
+            val mMonth = calendar.get(Calendar.MONTH)
+            val mDay = calendar.get(Calendar.DAY_OF_MONTH)
 
             val datePickerDialog = DatePickerDialog(requireContext(),
                 { view, year, monthOfYear, dayOfMonth -> date.setText(dayOfMonth.toString() + "-" + (monthOfYear + 1) + "-" + year) },
@@ -115,18 +115,18 @@ class AthleteRegistrationFragment: Fragment() {
             val edtemail = view.findViewById<EditText>(R.id.editTextTextEmailAddress)
 
             //EDIT TEXT CONTENT
-            var name = edtname.text.toString()
-            var surname = edtsurname.text.toString()
-            var birthday = tvbirthday.text.toString()
-            var address = edtaddress.text.toString()
-            var cap = edtcap.text.toString()
-            var phone = edtphone.text.toString()
-            var email = edtemail.text.toString()
+            val name = edtname.text.toString()
+            val surname = edtsurname.text.toString()
+            val birthday = tvbirthday.text.toString()
+            val address = edtaddress.text.toString()
+            val cap = edtcap.text.toString()
+            val phone = edtphone.text.toString()
+            val email = edtemail.text.toString()
 
             //SEGNALO MODIFICA (COSì IN CASO DI REGISTRAZIONE FUNZIONA)
             var modified = true
             //CHIEDO ALL'ACTIVITY SE L' IMMAGINE è STATA MODIFICATA
-            var picModified = (activity as AthleteRegistrationActivity).getImgModified()
+            val picModified = (activity as AthleteRegistrationActivity).getImgModified()
 
             //OPERAZIONE DI MODIFICA
             if(operation.equals("modify")){
@@ -194,7 +194,6 @@ class AthleteRegistrationFragment: Fragment() {
                         )
                     }//SE HO RICHIESTO REGISTRAZIONE
                     else {
-                        Toast.makeText(requireActivity(), "VOGLIO REGISTRARE", Toast.LENGTH_SHORT).show()
                         registerIntoDB(
                             name,
                             surname,
@@ -221,33 +220,19 @@ class AthleteRegistrationFragment: Fragment() {
 
         //PATH DELL'IMG INSERITA
         var pic = (activity as AthleteRegistrationActivity).getPicturePath()
-        Toast.makeText(requireActivity(), "il path è: "+pic, Toast.LENGTH_SHORT).show()
         storageRef.child(mAuth.uid!!).child(idAth).child("pic")
                 //ELENCO DEI SOTTOELEMENTI DI PIC
             .listAll().addOnSuccessListener { results ->
-                Toast.makeText(
-                    requireActivity(),
-                    "Ho elencato gli elementi di pic",
-                    Toast.LENGTH_SHORT
-                ).show()
                 if(!results.items.isNullOrEmpty()){
                     for (res in results.items){
                         //ELIMINO OGNI SOTTOELEMENTO DI PIC
-                        Toast.makeText(requireActivity(), "STO ELIMINANDO "+res.toString(), Toast.LENGTH_SHORT).show()
                         res.delete().addOnSuccessListener {
                             //ELIMINATI
-                            Toast.makeText(requireActivity(), "HO ELIMINATO TUTTO", Toast.LENGTH_SHORT).show()
-
                             insertPic(pic, idAth, ath)
 
                         }
                     }
                 }else{
-                    Toast.makeText(
-                        requireActivity(),
-                        "Era vuoto, posso procedere",
-                        Toast.LENGTH_SHORT
-                    ).show()
                     insertPic(pic, idAth, ath)
                 }
 
@@ -258,27 +243,18 @@ class AthleteRegistrationFragment: Fragment() {
     }
 
     private fun insertPic(pic: String, idAth: String, ath: Athlete?) {
-        Toast.makeText(
-            requireContext(),
-            pic.substring(pic.lastIndexOf('/') + 1),
-            Toast.LENGTH_SHORT
-        ).show()
-        Toast.makeText(requireActivity(), "INSERISCO NUOVO ELEMNTO IN PIC", Toast.LENGTH_SHORT).show()
         storageRef.child(mAuth.uid!!)
             .child(idAth).child("pic")
             .child(pic.substring(pic.lastIndexOf('/') + 1))
             //INSERISCO NUOVO ELEMENTO IN PIC
             .putFile(Uri.fromFile(File(pic))).addOnSuccessListener {
                 //INSERIMENTO RIUSCITO
-                Toast.makeText(requireActivity(), "HO INSERITO IL FILE", Toast.LENGTH_SHORT).show()
                 //SE MODIFICA
                 if (operation == "modify") {
-                    Toast.makeText(requireActivity(), "LANCIO ATHLETE INTENT", Toast.LENGTH_SHORT).show()
                     var intent: Intent =
                         Intent(activity, AthleteActivity::class.java)
                     intent.putExtra(ATHLETE_EXTRA, ath)
                     intent.putExtra(ATHLETE_ID_EXTRA, idAth)
-                    Toast.makeText(requireActivity(), "EXTRA: ---- "+(activity as AthleteRegistrationActivity).getPicturePath(), Toast.LENGTH_SHORT).show()
                     intent.putExtra("IMAGE_EXTRA", (activity as AthleteRegistrationActivity).getPicturePath())
                     Toast.makeText(context, "modifica riuscita", Toast.LENGTH_SHORT)
                         .show()
@@ -287,7 +263,6 @@ class AthleteRegistrationFragment: Fragment() {
                 }
                 //SE REGISTRAZIONE
                 else {
-                    Toast.makeText(requireActivity(), "LANCIO MAIN INTENT", Toast.LENGTH_SHORT).show()
                     var intent: Intent = Intent(activity, MainActivity::class.java)
                     Toast.makeText(
                         context,
@@ -391,9 +366,7 @@ class AthleteRegistrationFragment: Fragment() {
             "email" to email
         )).addOnSuccessListener {
             //REGISTRAZIONE RIUSCITA
-            Toast.makeText(requireActivity(), "Ho registrato i dati testuali", Toast.LENGTH_SHORT).show()
             if (picModified){
-                Toast.makeText(requireActivity(), "VOGLIO REGISTRARE L'IMMAGINE", Toast.LENGTH_SHORT).show()
                 addPicToDB(it.id, null)
             }
             else {

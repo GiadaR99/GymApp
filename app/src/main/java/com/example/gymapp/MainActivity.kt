@@ -6,7 +6,6 @@ import android.app.Dialog
 import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
 import android.telephony.SmsManager
 import android.view.Menu
@@ -25,11 +24,11 @@ import com.google.firebase.ktx.Firebase
 class MainActivity : AppCompatActivity() {
 
     //FLOATING ACTION BAR
-    lateinit var mainFAB: FloatingActionButton
-    lateinit var messageFAB: FloatingActionButton
-    lateinit var addFAB: FloatingActionButton
-    var fabVisible = false
-    lateinit var checkBox: LinearLayout
+    private lateinit var mainFAB: FloatingActionButton
+    private lateinit var messageFAB: FloatingActionButton
+    private lateinit var addFAB: FloatingActionButton
+    private var fabVisible = false
+    private lateinit var checkBox: LinearLayout
 
     //LAYOUT
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -38,11 +37,10 @@ class MainActivity : AppCompatActivity() {
     private val mAuth = FirebaseAuth.getInstance()
     private val db = Firebase.firestore
 
-    var athletes: HashMap<String, Athlete> = HashMap()
-    var names : ArrayList<String> = ArrayList()
-    //var images : ArrayList<Uri?> = ArrayList()
-    var ids : ArrayList<String> = ArrayList()
-    var numbers : ArrayList<String> = ArrayList()
+    private var athletes: HashMap<String, Athlete> = HashMap()
+    private var names : ArrayList<String> = ArrayList()
+    private var ids : ArrayList<String> = ArrayList()
+    private var numbers : ArrayList<String> = ArrayList()
 
 
     @SuppressLint("UseCompatLoadingForDrawables")
@@ -56,16 +54,6 @@ class MainActivity : AppCompatActivity() {
         //FLOATING ACTION BUTTONS
         setFloatingActionButtons()
 
-    }
-
-
-    //TO DELETE
-    private fun openMemberRegistrationDialog() {
-        val dialog = Dialog(this)
-        //dialog.setContentView(R.layout.dialog_add_member)
-        dialog.show()
-        //val cancelBtn = findViewById<Button>(R.id.btnCancel)
-        //val registerBtn = findViewById<Button>(R.id.btnRegister)
     }
 
 
@@ -87,6 +75,7 @@ class MainActivity : AppCompatActivity() {
         return true
     }
 
+    @SuppressLint("UseCompatLoadingForDrawables")
     private fun setFloatingActionButtons(){
         mainFAB = findViewById(R.id.floatingActionButton)
         messageFAB = findViewById(R.id.idFABMessage)
@@ -115,7 +104,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         messageFAB.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Message clicked..", Toast.LENGTH_LONG).show()
             //SHOW SELECT PEOPLE FOR MESSAGE ACTIVITY
             //USO NAMES E NUMBERS
             if (athletes.isEmpty()){
@@ -124,14 +112,13 @@ class MainActivity : AppCompatActivity() {
 
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_choose_athletes)
-            var confirm = dialog.findViewById<Button>(R.id.btnConfirmSMS)
+            val confirm = dialog.findViewById<Button>(R.id.btnConfirmSMS)
             checkBox = dialog.findViewById<LinearLayout>(R.id.linearLayoutCheck)
             addCheckBox(names.size)
             confirm.setOnClickListener {
                 val selectedPhones: ArrayList<String> = ArrayList<String>()
                 for(i in 0 until names.size){
-                    //dialog.findViewById<CheckBox>("R.id."+l)
-                    var cb = checkBox.getChildAt(i) as CheckBox
+                    val cb = checkBox.getChildAt(i) as CheckBox
                     if (cb.isChecked){
                         selectedPhones.add(numbers[i])
                     }
@@ -139,10 +126,10 @@ class MainActivity : AppCompatActivity() {
                 if(selectedPhones.isNotEmpty()){
                     val dialog2 = Dialog(this)
                     dialog2.setContentView(R.layout.dialog_send_message)
-                    var send = dialog2.findViewById<ImageButton>(R.id.imageButtonSend)
+                    val send = dialog2.findViewById<ImageButton>(R.id.imageButtonSend)
 
                     send.setOnClickListener {
-                        var text = dialog2.findViewById<EditText>(R.id.editTextTextMultiLine).text.toString()
+                        val text = dialog2.findViewById<EditText>(R.id.editTextTextMultiLine).text.toString()
                         if (!(text.trim().equals("", true))){
                             for(number in selectedPhones){
                                 sendSMS(number, text)
@@ -160,7 +147,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         addFAB.setOnClickListener {
-            Toast.makeText(this@MainActivity, "Add clicked..", Toast.LENGTH_LONG).show()
             //SHOW MEMBER REGISTRATION ACTIVITY
             //PER APRIRE ACTIVITY CON FRAGMENT
             val intent = Intent(this, AthleteRegistrationActivity::class.java)
@@ -172,12 +158,10 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun sendSMS(number: String, text: String) {
-        val smsManager: SmsManager = SmsManager.getDefault()
         var n = number
         if(!number.startsWith("+39")){
-            n="+39"+number
+            n= "+39$number"
         }
-        Toast.makeText(this, n, Toast.LENGTH_SHORT).show()
         val sentPI: PendingIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT"), 0)
         SmsManager.getDefault().sendTextMessage(n, null, text, sentPI, null)
         Toast.makeText(this, "SMS inviato", Toast.LENGTH_SHORT).show()
@@ -199,21 +183,20 @@ class MainActivity : AppCompatActivity() {
     private fun setListsAndLayoutFromDB(){
 
         //ATHLETES LIST
-
         //INIT LISTS
 
         db.collection("coach").document(mAuth.uid!!).collection("team")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    var id: String = document.id
-                    var name: String = document.get("name").toString()
-                    var surname: String = document.get("surname").toString()
-                    var birthDay: String = document.get("birthday").toString()
-                    var address: String = document.get("address").toString()
-                    var cap: String = document.get("cap").toString()
-                    var phone: String = document.get("phone").toString()
-                    var email: String = document.get("email").toString()
+                    val id: String = document.id
+                    val name: String = document.get("name").toString()
+                    val surname: String = document.get("surname").toString()
+                    val birthDay: String = document.get("birthday").toString()
+                    val address: String = document.get("address").toString()
+                    val cap: String = document.get("cap").toString()
+                    val phone: String = document.get("phone").toString()
+                    val email: String = document.get("email").toString()
                     names.add(name+" "+surname)
                     ids.add(id)
                     numbers.add(phone)
@@ -232,20 +215,17 @@ class MainActivity : AppCompatActivity() {
                 var txt = findViewById<TextView>(R.id.textViewEmptyTeam)
                 if(athletes.isEmpty()){
                     txt.visibility = View.VISIBLE
-                    Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, ids.toString(), Toast.LENGTH_SHORT).show()
-                    Toast.makeText(this, athletes.toString(), Toast.LENGTH_SHORT).show()
                 }else{
                     txt.visibility = View.GONE
                 }
 
-                adapter=TeamRecyclerAdapter(names, ids, athletes, this)
+                adapter=TeamRecyclerAdapter(names, ids, athletes)
                 recyclerView.adapter=adapter
 
             }
             .addOnFailureListener { exception ->
                 //
-                Toast.makeText(this, "FAIL", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
             }
     }
 
