@@ -3,9 +3,12 @@ package com.example.gymapp
 import android.R.drawable
 import android.annotation.SuppressLint
 import android.app.Dialog
+import android.app.PendingIntent
 import android.content.Intent
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
+import android.telephony.SmsManager
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -121,11 +124,38 @@ class MainActivity : AppCompatActivity() {
 
             val dialog = Dialog(this)
             dialog.setContentView(R.layout.dialog_choose_athletes)
+            var confirm = dialog.findViewById<Button>(R.id.btnConfirmSMS)
             checkBox = dialog.findViewById<LinearLayout>(R.id.linearLayoutCheck)
             addCheckBox(names.size)
+            confirm.setOnClickListener {
+                val selectedPhones: ArrayList<String> = ArrayList<String>()
+                for(i in 0 until names.size){
+                    //dialog.findViewById<CheckBox>("R.id."+l)
+                    var cb = checkBox.getChildAt(i) as CheckBox
+                    if (cb.isChecked){
+                        selectedPhones.add(numbers[i])
+                    }
+                }
+                if(selectedPhones.isNotEmpty()){
+                    val dialog2 = Dialog(this)
+                    dialog2.setContentView(R.layout.dialog_send_message)
+                    var send = dialog2.findViewById<ImageButton>(R.id.imageButtonSend)
+
+                    send.setOnClickListener {
+                        var text = dialog2.findViewById<EditText>(R.id.editTextTextMultiLine).text.toString()
+                        if (!(text.trim().equals("", true))){
+                            for(number in selectedPhones){
+                                sendSMS(number, text)
+                                dialog2.dismiss()
+                                dialog.dismiss()
+                            }
+                        }
+
+                    }
+                    dialog2.show()
+                }
+            }
             dialog.show()
-
-
 
         }
 
@@ -141,8 +171,20 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun addCheckBox(size: Int) {
-        checkBox.setOrientation(LinearLayout.VERTICAL)
+    private fun sendSMS(number: String, text: String) {
+        val smsManager: SmsManager = SmsManager.getDefault()
+        var n = number
+        if(!number.startsWith("+39")){
+            n="+39"+number
+        }
+        Toast.makeText(this, n, Toast.LENGTH_SHORT).show()
+        val sentPI: PendingIntent = PendingIntent.getBroadcast(this, 0, Intent("SMS_SENT"), 0)
+        SmsManager.getDefault().sendTextMessage(n, null, text, sentPI, null)
+        Toast.makeText(this, "SMS inviato", Toast.LENGTH_SHORT).show()
+    }
+
+    private fun addCheckBox(size: Int){
+        checkBox.orientation = LinearLayout.VERTICAL
         for (i in 1..size) {
             val cbx = CheckBox(this)
             cbx.id = View.generateViewId()

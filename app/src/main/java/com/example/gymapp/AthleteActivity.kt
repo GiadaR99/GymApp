@@ -74,17 +74,7 @@ class AthleteActivity : AppCompatActivity() {
 
                             db.collection("coach").document(mAuth.uid!!).collection("team").document(id)
                                 .delete().addOnSuccessListener {
-                                    //storageRef.child(mAuth.uid!!).child(id).delete()
-                                     //   .addOnSuccessListener {
-                                          Toast.makeText(this, "Eliminazione database avvenuta con successo!", Toast.LENGTH_SHORT).show()
-                                           // dialog.dismiss()
-                                          // val intent = Intent(this, MainActivity::class.java)
-                                          //  this.finish()
-                                           // this.startActivity(intent)
-                                     //   }
-                                     //   .addOnFailureListener {
-                                     //       Toast.makeText(this, "Eliminazione Fallita!", Toast.LENGTH_SHORT).show()
-                                    //    }
+
                                     storageRef.child(mAuth.uid!!).child(id).child("pic").listAll().addOnSuccessListener {
                                         results ->
                                         if(!results.items.isNullOrEmpty()) {
@@ -94,7 +84,7 @@ class AthleteActivity : AppCompatActivity() {
                                                 }.addOnFailureListener {
                                                     Toast.makeText(
                                                         this,
-                                                        "Fail2",
+                                                        "Errore",
                                                         Toast.LENGTH_SHORT
                                                     ).show()
                                                 }
@@ -103,13 +93,13 @@ class AthleteActivity : AppCompatActivity() {
                                         }
 
                                     }.addOnFailureListener{
-                                        Toast.makeText(this, "Fail1", Toast.LENGTH_SHORT).show()
+                                        Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
                                     }
 
 
 
                                 }.addOnFailureListener {
-                                    Toast.makeText(this, "Fail0", Toast.LENGTH_SHORT).show()
+                                    Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
                                 }
 
 
@@ -143,18 +133,24 @@ class AthleteActivity : AppCompatActivity() {
         storageRef.child(mAuth.uid!!).child(id).child("doc").listAll().addOnSuccessListener {
                 results2 ->
             if(!results2.items.isNullOrEmpty()){
+                var max = results2.items.size
+                var i: Int = 0
                 for(res2 in results2.items)
                     res2.delete().addOnSuccessListener {
-                        Toast.makeText(this, "Eliminazione Storage avvenuta con successo!", Toast.LENGTH_SHORT).show()
-                        dialog.dismiss()
-                        val intent = Intent(this, MainActivity::class.java)
-                        this.finish()
-                        this.startActivity(intent)
+                        i++
+                        if(i==max){
+                            Toast.makeText(this, "Eliminazione avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                            dialog.dismiss()
+                            val intent = Intent(this, MainActivity::class.java)
+                            this.finish()
+                            this.startActivity(intent)
+                        }
+
                     }.addOnFailureListener {
-                        Toast.makeText(this, "Fail4", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
                     }
             }else{
-                Toast.makeText(this, "Eliminazione Storage avvenuta con successo!", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Eliminazione avvenuta con successo!", Toast.LENGTH_SHORT).show()
                 dialog.dismiss()
                 val intent = Intent(this, MainActivity::class.java)
                 this.finish()
@@ -163,7 +159,7 @@ class AthleteActivity : AppCompatActivity() {
 
 
         }.addOnFailureListener {
-            Toast.makeText(this, "Fail3", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Errore", Toast.LENGTH_SHORT).show()
         }
     }
 

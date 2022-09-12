@@ -55,11 +55,16 @@ class AthleteDocumentsFragment : Fragment() {
             //cursor.close()
 
             //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageBitmap(BitmapFactory.decodeFile(picturePath))
+
             docPath= selectedDoc?.path.toString()
+            if(!docPath.startsWith("/document/raw")){
+                docPath = uriPathHelper.getPath(requireContext(), selectedDoc!!).toString()
+            }
+            var filename = docPath.substring(docPath.lastIndexOf('/') + 1)
             //docPath = uriPathHelper.getPath(requireContext(), selectedDoc!!).toString()
             //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageURI(docPath?.toUri())
             Toast.makeText(context, "IL PATH é: "+docPath, Toast.LENGTH_SHORT).show()
-            var filename = docPath.substring(docPath.lastIndexOf('/') + 1)
+
 
             storageRef.child(mAuth.uid!!).child(athleteId)
                 .child("doc").child(filename)
