@@ -62,7 +62,7 @@
                 android:layout_marginBottom="10dp"
                 android:gravity="center"
                 android:padding="2dp"
-                android:text="Registrazione nuovo membro Team"
+                android:text="@string/registrazione_nuovo_membro_team"
                 android:textAlignment="center"
                 android:textAllCaps="false"
                 android:textSize="30sp"

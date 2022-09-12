@@ -14,7 +14,7 @@
         android:layout_marginBottom="10dp"
         android:gravity="center"
         android:padding="2dp"
-        android:text="Informazioni di contatto"
+        android:text="@string/informazioni_di_contatto"
         android:textAlignment="center"
         android:textAllCaps="false"
         android:textSize="20sp"

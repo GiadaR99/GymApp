@@ -14,7 +14,7 @@
             android:layout_marginBottom="20dp"
             android:gravity="center"
             android:padding="2dp"
-            android:text="Documenti"
+            android:text="@string/documenti"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textSize="20sp"

@@ -16,4 +16,11 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="modifica_membro_team">Modifica membro Team</string>
     <string name="modifica">Modifica</string>
+    <string name="registrazione_nuovo_membro_team">Registrazione nuovo membro Team</string>
+    <string name="il_tuo_team_vuoto">Il tuo Team è vuoto!</string>
+    <string name="conferma">Conferma</string>
+    <string name="documenti">Documenti</string>
+    <string name="informazioni_di_contatto">Informazioni di contatto</string>
+    <string name="ddn">ddn</string>
+    <string name="nome_cognome">Nome Cognome</string>
 </resources>

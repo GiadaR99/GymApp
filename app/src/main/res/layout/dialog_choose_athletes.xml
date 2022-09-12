@@ -39,7 +39,7 @@
                     android:layout_gravity="center"
                     android:layout_margin="8dp"
                     android:background="@drawable/edt_btn_background"
-                    android:text="Conferma"
+                    android:text="@string/conferma"
                     android:textAllCaps="false"
                     app:backgroundTint="@color/purple_200"
                     app:layout_constraintBottom_toBottomOf="parent"
