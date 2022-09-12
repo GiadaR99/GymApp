@@ -36,37 +36,42 @@ class AthleteDocumentsFragment : Fragment() {
     private var adapter: RecyclerView.Adapter<DocumentRecyclerAdapter.ViewHolder>? = null
     private val mAuth = FirebaseAuth.getInstance()
     val storageRef = FirebaseStorage.getInstance().reference
+    private lateinit var athleteId : String
 
     //DOC
     val uriPathHelper = UriPathHelper()
-    var docPath: String? = ""
-    private var intentDoc: Intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    lateinit var docPath: String
+    private var intentDoc: Intent = Intent(Intent.ACTION_GET_CONTENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     val startForResult = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) {
             result: ActivityResult ->
         if (result.resultCode == Activity.RESULT_OK) {
-            val selectedDoc : Uri? = intentDoc.data
-            Toast.makeText(context, selectedDoc.toString(), Toast.LENGTH_SHORT).show()
+            val selectedDoc : Uri? = result.data?.data
+            //Toast.makeText(context, selectedDoc.toString(), Toast.LENGTH_SHORT).show()
             //val filePathColumn = arrayOf(MediaStore.Images.Media.DATA)
-            //val cursor: android.database.Cursor? = requireContext().contentResolver.query(selectedImage!!, filePathColumn, null, null, null)
+            //val cursor: android.database.Cursor? = requireContext().contentResolver.query(selectedDoc!!, filePathColumn, null, null, null)
             //cursor?.moveToFirst()
             //val columnIndex: Int = cursor!!.getColumnIndex(filePathColumn[0])
-            //picturePath= cursor.getString(columnIndex)
+            //docPath= cursor.getString(columnIndex)
             //cursor.close()
 
             //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageBitmap(BitmapFactory.decodeFile(picturePath))
-            docPath = uriPathHelper.getPath(requireContext(), selectedDoc!!)
+            docPath= selectedDoc?.path.toString()
+            //docPath = uriPathHelper.getPath(requireContext(), selectedDoc!!).toString()
             //view?.findViewById<ImageButton>(R.id.imageButton)?.setImageURI(docPath?.toUri())
-            Toast.makeText(context, docPath.toString(), Toast.LENGTH_SHORT).show()
+            Toast.makeText(context, "IL PATH é: "+docPath, Toast.LENGTH_SHORT).show()
+            var filename = docPath.substring(docPath.lastIndexOf('/') + 1)
 
-
-            storageRef.child(mAuth.uid!!).child(requireActivity().intent.getStringExtra(ATHLETE_ID_EXTRA)!!)
-                .putFile(selectedDoc)
+            storageRef.child(mAuth.uid!!).child(athleteId)
+                .child("doc").child(filename)
+                .putFile(selectedDoc!!)
                 .addOnSuccessListener {
                 //AGGIUNTA
                     names.remove("add")
                     images.remove(R.drawable.add)
-                    names.add("F")//nome del file
+                    names.add(filename)
                     images.add(R.drawable.doc)
+                    names.add("add")
+                    images.add(R.drawable.add)
                     adapter?.notifyDataSetChanged()
                     Toast.makeText(requireActivity(), "Operazione riuscita", Toast.LENGTH_SHORT).show()
                 }
@@ -81,6 +86,8 @@ class AthleteDocumentsFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        athleteId= requireActivity().intent.getStringExtra(ATHLETE_ID_EXTRA)!!
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_athlete_documents, container, false)
     }
@@ -88,17 +95,15 @@ class AthleteDocumentsFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        docs = ArrayList<StorageReference>()
-        names = ArrayList()
-        images = ArrayList()
 
-
-
+        //docs = ArrayList<StorageReference>()
+        //names = ArrayList()
+        //images = ArrayList()
 
         var ref =
-            storageRef.root.child(mAuth.uid!!)
-                .child(requireActivity().intent.getStringExtra(ATHLETE_ID_EXTRA)!!)
-                .child("docs")
+            storageRef.child(mAuth.uid!!)
+                .child(athleteId)
+                .child("doc")
                 .listAll()
                 .addOnSuccessListener {
                     results ->
@@ -108,30 +113,16 @@ class AthleteDocumentsFragment : Fragment() {
                         names.add(res.name)
                     }
                     Toast.makeText(context, "SUCCESS", Toast.LENGTH_SHORT).show()
-
-
+                    names.add("add")
+                    images.add(R.drawable.add)
+                    adapter?.notifyDataSetChanged()
                 }
-
                 .addOnFailureListener {
                     Toast.makeText(context, "FAIL", Toast.LENGTH_SHORT).show()
-
+                    names.add("add")
+                    images.add(R.drawable.add)
                 }
 
-        //names.add("File1")
-        //names.add("File2")
-        //names.add("File3")
-        //names.add("File4")
-        names.add("add")
-
-        /*for(i in 0 until docs.size-1){
-
-            images.add(R.drawable.doc)
-            }
-         */
-        images.add(R.drawable.add)
-
-
-        //layoutManager= LinearLayoutManager(context)
         val orientation = resources.configuration.orientation
         if (orientation == Configuration.ORIENTATION_LANDSCAPE) {
             layoutManager= GridLayoutManager(context, 6)
@@ -146,6 +137,7 @@ class AthleteDocumentsFragment : Fragment() {
         //TO CORRECT!!!!
         adapter= DocumentRecyclerAdapter(names, images, intentDoc, this)
         recyclerView.adapter=adapter
+
 
     }
 

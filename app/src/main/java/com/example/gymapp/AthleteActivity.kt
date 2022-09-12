@@ -26,7 +26,6 @@ class AthleteActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_athlete)
         id = this.intent.getSerializableExtra(ATHLETE_ID_EXTRA) as String
-
         setFloatingActionButtons()
     }
 

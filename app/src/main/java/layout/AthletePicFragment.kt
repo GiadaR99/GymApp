@@ -1,9 +1,11 @@
 package layout
 
+import android.graphics.BitmapFactory
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -38,10 +40,14 @@ class AthletePicFragment : Fragment() {
 
         if (!uri.equals("null")){
             var p = view.findViewById<ImageView>(R.id.imageViewProfile)
-            //Picasso.get().invalidate(uri)
-            PicassoTools.clearCache(Picasso.get());
-            //Picasso.get().load(uri?.toUri()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.user_pic).into(p)
-            loadImage(p, uri!!)
+            if(uri!!.startsWith("http")){
+                PicassoTools.clearCache(Picasso.get());
+                Picasso.get().load(uri?.toUri()).memoryPolicy(MemoryPolicy.NO_CACHE).networkPolicy(NetworkPolicy.NO_CACHE).placeholder(R.drawable.user_pic).into(p)
+            }else{
+                var bitmap = BitmapFactory.decodeFile(uri)
+                p.setImageBitmap(bitmap)
+            }
+            //loadImage(p, uri!!)
             Toast.makeText(context, "HO MESSO LA FOTO: "+uri.toString()+" nel pulsante "+view.findViewById<ImageView>(R.id.imageViewProfile).toString(), Toast.LENGTH_SHORT).show()
         }else{
             Toast.makeText(context, uri.toString() , Toast.LENGTH_SHORT).show()

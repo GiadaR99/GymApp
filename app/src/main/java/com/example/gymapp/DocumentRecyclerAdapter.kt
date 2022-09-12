@@ -43,9 +43,6 @@ class DocumentRecyclerAdapter(
             itemView.setOnClickListener {
                 if(title.text.equals("add")) {
                     Toast.makeText(itemView.context, "Aggiunta nuovo file...", Toast.LENGTH_SHORT).show()
-                    //rimozione add da lista
-                    //aggiunta nuovo file
-                    //aggiunta add in coda
 
                     //INTENT SCELTA
                     athleteDocumentsFragment.startForResult.launch(intentDoc)
