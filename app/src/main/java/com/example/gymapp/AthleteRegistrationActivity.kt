@@ -117,6 +117,7 @@ class AthleteRegistrationActivity : AppCompatActivity() {
             intent = Intent(this, AthleteActivity::class.java)
             intent.putExtra(ATHLETE_EXTRA,this.intent.getSerializableExtra("athlete"))
             intent.putExtra(ATHLETE_ID_EXTRA, this.intent.getStringExtra("athlete_id"))
+            intent.putExtra("IMAGE_EXTRA", this.intent.getStringExtra("image"))
         }else{
             intent = Intent(this, MainActivity::class.java)
         }
