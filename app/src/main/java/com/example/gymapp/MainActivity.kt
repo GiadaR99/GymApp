@@ -4,12 +4,12 @@ import android.R.drawable
 import android.annotation.SuppressLint
 import android.app.Dialog
 import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
-import android.widget.Toast
+import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,6 +18,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
+
 class MainActivity : AppCompatActivity() {
 
     //FLOATING ACTION BAR
@@ -25,6 +26,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var messageFAB: FloatingActionButton
     lateinit var addFAB: FloatingActionButton
     var fabVisible = false
+    lateinit var checkBox: LinearLayout
 
     //LAYOUT
     private var layoutManager: RecyclerView.LayoutManager? = null
@@ -112,9 +114,15 @@ class MainActivity : AppCompatActivity() {
         messageFAB.setOnClickListener {
             Toast.makeText(this@MainActivity, "Message clicked..", Toast.LENGTH_LONG).show()
             //SHOW SELECT PEOPLE FOR MESSAGE ACTIVITY
+            //USO NAMES E NUMBERS
+            if (athletes.isEmpty()){
+                Toast.makeText(this, "Il tuo team è vuoto!", Toast.LENGTH_SHORT).show()
+            }
 
             val dialog = Dialog(this)
-            //dialog.setContentView(R.layout.dialog_add_member)
+            dialog.setContentView(R.layout.dialog_choose_athletes)
+            checkBox = dialog.findViewById<LinearLayout>(R.id.linearLayoutCheck)
+            addCheckBox(names.size)
             dialog.show()
 
 
@@ -124,15 +132,24 @@ class MainActivity : AppCompatActivity() {
         addFAB.setOnClickListener {
             Toast.makeText(this@MainActivity, "Add clicked..", Toast.LENGTH_LONG).show()
             //SHOW MEMBER REGISTRATION ACTIVITY
-
             //PER APRIRE ACTIVITY CON FRAGMENT
             val intent = Intent(this, AthleteRegistrationActivity::class.java)
             intent.putExtra("operation", "registration")
             this.finish()
             this.startActivity(intent)
 
-            //PER APRIRE DIALOG
-            //openMemberRegistrationDialog()
+        }
+    }
+
+    fun addCheckBox(size: Int) {
+        checkBox.setOrientation(LinearLayout.VERTICAL)
+        for (i in 1..size) {
+            val cbx = CheckBox(this)
+            cbx.id = View.generateViewId()
+            cbx.text = names[i-1]
+            cbx.setTextColor(Color.WHITE)
+            cbx.textSize = 25F
+            checkBox.addView(cbx)
         }
     }
 
@@ -162,10 +179,6 @@ class MainActivity : AppCompatActivity() {
                         Athlete(name, surname, birthDay, address, cap, phone, email)
 
                 }
-                //Toast.makeText(this, names.toString(), Toast.LENGTH_SHORT).show()
-                //for (i in 0 until names.size)
-                //    images.add(R.drawable.logo)
-                //Toast.makeText(this, images.toString(), Toast.LENGTH_SHORT).show()
 
                 //LAYOUT
                 layoutManager=LinearLayoutManager(this)
